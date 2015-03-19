@@ -115,7 +115,7 @@ class PayFast extends PaymentModule
 	public function install()
 	{
 		unlink(dirname(__FILE__).'/../../cache/class_index.php');
-		if ( !parent::install() 
+		if (!parent::install()
 			|| !$this->registerHook('payment') 
 			|| !$this->registerHook('paymentReturn') 
 			|| !Configuration::updateValue('PAYFAST_MERCHANT_ID', '') 
@@ -126,9 +126,8 @@ class PayFast extends PaymentModule
 			|| !Configuration::updateValue('PAYFAST_PAYNOW_LOGO', 'on')  
 			|| !Configuration::updateValue('PAYFAST_PAYNOW_ALIGN', 'right')
 			|| !Configuration::updateValue('PAYFAST_PASSPHRASE', ''))
-		{            
 			return false;
-		}            
+
 
 		return true;
 	}
@@ -155,53 +154,39 @@ class PayFast extends PaymentModule
 		$html = '<div class="bootstrap">';
 
 		/* Update configuration variables */
-		if ( Tools::isSubmit( 'submitPayfast' ))
+		if (Tools::isSubmit( 'submitPayfast' ))
 		{
-			if ( $paynow_text = Tools::getValue( 'payfast_paynow_text' ))
-			
-				 Configuration::updateValue( 'PAYFAST_PAYNOW_TEXT', $paynow_text );
-			
+			if ($paynow_text = Tools::getValue( 'payfast_paynow_text' ))
+				Configuration::updateValue( 'PAYFAST_PAYNOW_TEXT', $paynow_text );
 
-			if ( $paynow_logo = Tools::getValue( 'payfast_paynow_logo' ))
+			if ($paynow_logo = Tools::getValue( 'payfast_paynow_logo' ))
+				Configuration::updateValue( 'PAYFAST_PAYNOW_LOGO', $paynow_logo );
 			
-				 Configuration::updateValue( 'PAYFAST_PAYNOW_LOGO', $paynow_logo );
+			if ($paynow_align = Tools::getValue( 'payfast_paynow_align' ))
+				Configuration::updateValue( 'PAYFAST_PAYNOW_ALIGN', $paynow_align );
 			
-			if ( $paynow_align = Tools::getValue( 'payfast_paynow_align' ))
-			
-				 Configuration::updateValue( 'PAYFAST_PAYNOW_ALIGN', $paynow_align );
-			
-			if ( $pass_phrase = Tools::getValue( 'payfast_passphrase' ))
-			
-				 Configuration::updateValue( 'PAYFAST_PASSPHRASE', $pass_phrase );
+			if ($pass_phrase = Tools::getValue( 'payfast_passphrase' ))
+				Configuration::updateValue( 'PAYFAST_PASSPHRASE', $pass_phrase );
 
 			$mode = ( Tools::getValue( 'payfast_mode' ) == 'live' ? 'live' : 'test' );
 			Configuration::updateValue('PAYFAST_MODE', $mode );
-			if ( $mode != 'test')
+			if ($mode != 'test')
 			{
-				if ( ( $merchant_id = Tools::getValue( 'payfast_merchant_id' ) ) && preg_match('/[0-9]/', $merchant_id ))
-				
+				if (( $merchant_id = Tools::getValue( 'payfast_merchant_id' ) ) && preg_match('/[0-9]/', $merchant_id ))
 					Configuration::updateValue( 'PAYFAST_MERCHANT_ID', $merchant_id );
-						   
 				else
-				
 					$errors[] = '<div class="warning warn"><h3>'.$this->l( 'Merchant ID seems to be wrong' ).'</h3></div>';
 				
 
-				if ( ( $merchant_key = Tools::getValue( 'payfast_merchant_key' ) ) && preg_match('/[a-zA-Z0-9]/', $merchant_key ))
-				
+				if (( $merchant_key = Tools::getValue( 'payfast_merchant_key' ) ) && preg_match('/[a-zA-Z0-9]/', $merchant_key ))
 					Configuration::updateValue( 'PAYFAST_MERCHANT_KEY', $merchant_key );
-				
 				else
-				
 					$errors[] = '<div class="warning warn"><h3>'.$this->l( 'Merchant key seems to be wrong' ).'</h3></div>';
-								  
 
-				if ( !count( $errors ))
-				
+				if (!count( $errors ))
 					Tools::redirectAdmin( AdminController::$currentIndex.'&configure=payfast&token='.Tools::getValue( 'token' ).'&conf=4' );
-
 			}
-			if ( Tools::getValue( 'payfast_logs' ))
+			if (Tools::getValue( 'payfast_logs' ))
 			
 				Configuration::updateValue( 'PAYFAST_LOGS', 1 );
 			
@@ -218,7 +203,7 @@ class PayFast extends PaymentModule
 			$this->registerHook('displayRightColumn'); 
 			else if (Tools::getValue('logo_position') == self::FOOTER)
 			$this->registerHook('displayFooter'); 
-			if ( method_exists ('Tools', 'clearSmartyCache'))
+			if (method_exists ('Tools', 'clearSmartyCache'))
 			
 				Tools::clearSmartyCache();                       
 		}             
@@ -240,15 +225,15 @@ class PayFast extends PaymentModule
 			self::RIGHT_COLUMN => $this->l('Right Column'),
 			self::FOOTER => $this->l('Footer'));
 
-		if ( $this->isRegisteredInHook('displayLeftColumn'))
+		if ($this->isRegisteredInHook('displayLeftColumn'))
 		
 			$current_logo_block_position = self::LEFT_COLUMN;
 		
-		elseif ( $this->isRegisteredInHook('displayRightColumn'))
+		elseif ($this->isRegisteredInHook('displayRightColumn'))
 		
 			$current_logo_block_position = self::RIGHT_COLUMN; 
 		
-		elseif ( $this->isRegisteredInHook('displayFooter'))
+		elseif ($this->isRegisteredInHook('displayFooter'))
 		
 			$current_logo_block_position = self::FOOTER;
 		
@@ -419,9 +404,8 @@ class PayFast extends PaymentModule
 	{
 		$filler = '';
 		if ($position)
-		{
 			$filler .= '';
-		}
+
 		return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
 		<img src="'.__PS_BASE_URI__.$filler.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
 	}
@@ -473,7 +457,7 @@ class PayFast extends PaymentModule
 
 		// Use appropriate merchant identifiers
 		// Live
-		if ( Configuration::get('PAYFAST_MODE') == 'live')
+		if (Configuration::get('PAYFAST_MODE') == 'live')
 		{
 			$data['info']['merchant_id'] = Configuration::get('PAYFAST_MERCHANT_ID');
 			$data['info']['merchant_key'] = Configuration::get('PAYFAST_MERCHANT_KEY');
@@ -506,10 +490,10 @@ class PayFast extends PaymentModule
 		
 		$pf_output = '';
 		// Create output string
-		foreach ( ($data['info']) as $key => $val)
+		foreach (($data['info']) as $key => $val)
 			$pf_output .= $key.'='.urlencode( trim( $val ) ).'&';
 		$pass_phrase = Configuration::get( 'PAYFAST_PASSPHRASE' );
-		if ( empty( $pass_phrase ) || Configuration::get('PAYFAST_MODE') != 'live')
+		if (empty( $pass_phrase ) || Configuration::get('PAYFAST_MODE') != 'live')
 		
 			$pf_output = Tools::substr( $pf_output, 0, -1 );
 		
@@ -551,9 +535,7 @@ class PayFast extends PaymentModule
 		if (PF_DEBUG)
 		{
 			if ($close)
-			{
 				fclose( $fh );
-			}
 			else
 			{
 				// If file doesn't exist, create it
@@ -606,29 +588,21 @@ class PayFast extends PaymentModule
 		foreach ($pfData as $key => $val)
 		{
 			if ($key != 'signature')
-			{
 				$pfParamString .= $key.'='.urlencode( $val ).'&';
-			}
 			else
-			{
 				break;
-			}
 		}
 
 		$pfParamString = Tools::substr( $pfParamString, 0, -1 );
 
 		if (is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live')
-		{
 			$tempParamString = $pfParamString;
-		}
 		else
-		{
 			$tempParamString = $pfParamString."&passphrase=".urlencode( $pfPassphrase );
-		}
 
 		$signature = md5( $tempParamString );
 
-		$result = ( $pfData['signature'] == $signature );
+		$result = ($pfData['signature'] == $signature );
 
 		self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
 
@@ -753,7 +727,7 @@ class PayFast extends PaymentModule
 		{
 			$ips = gethostbynamel( $pfHostname );
 
-			if( $ips !== false )
+			if( $ips !== false)
 				$validIps = array_merge( $validIps, $ips );
 		}
 
