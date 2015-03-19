@@ -13,7 +13,7 @@
  * 
  * This payment module is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * or FITNESS FOR A PARTICULAR PURPOSE.See the GNU Lesser General Public
  * License for more details.
  * 
  * @author    Ron Darby<ron.darby@payfast.co.za>
@@ -34,22 +34,20 @@ define( 'PF_MODULE_NAME', 'PayFast-Prestashop' );
 define( 'PF_MODULE_VER', '2.1.1' );
 define( 'PF_DEBUG', ( Configuration::get('PAYFAST_LOGS')  ? true : false ) );
 
-// Features
-// - PHP
-$pfFeatures = 'PHP '. phpversion() .';';
+$pfFeatures = 'PHP '.phpversion().';';
 
-// - cURL
-if( in_array( 'curl', get_loaded_extensions() ) )
+
+if (in_array( 'curl', get_loaded_extensions() ))
 {
     define( 'PF_CURL', '' );
     $pfVersion = curl_version();
-    $pfFeatures .= ' curl '. $pfVersion['version'] .';';
+    $pfFeatures.= ' curl '.$pfVersion['version'].';';
 }
 else
-    $pfFeatures .= ' nocurl;';
+    $pfFeatures.= ' nocurl;';
 
 // Create user agrent
-define( 'PF_USER_AGENT', PF_SOFTWARE_NAME .'/'. PF_SOFTWARE_VER .' ('. trim( $pfFeatures ) .') '. PF_MODULE_NAME .'/'. PF_MODULE_VER );
+define( 'PF_USER_AGENT', PF_SOFTWARE_NAME.'/'.PF_SOFTWARE_VER.' ('.trim( $pfFeatures ).') '.PF_MODULE_NAME.'/'.PF_MODULE_VER );
 
 // General Defines
 define( 'PF_TIMEOUT', 15 );
@@ -78,7 +76,7 @@ define( 'PF_ERR_UNKNOWN', 'Unkown error occurred' );
 define( 'PF_MSG_OK', 'Payment was successful' );
 define( 'PF_MSG_FAILED', 'Payment has failed' );
 define( 'PF_MSG_PENDING',
-    'The payment is pending. Please note, you will receive another Instant'.
+    'The payment is pending.Please note, you will receive another Instant'.
     ' Transaction Notification when the payment status changes to'.
     ' "Completed", or "Failed"' );
 
@@ -207,7 +205,7 @@ class PayFast extends PaymentModule
 
 				if ( !count( $errors ))
 				
-					Tools::redirectAdmin( AdminController::$currentIndex.'&configure=payfast&token='.Tools::getValue( 'token' ) .'&conf=4' );
+					Tools::redirectAdmin( AdminController::$currentIndex.'&configure=payfast&token='.Tools::getValue( 'token' ).'&conf=4' );
 				                
 			}
 			if ( Tools::getValue( 'payfast_logs' ))
@@ -235,11 +233,11 @@ class PayFast extends PaymentModule
 		/* Display errors */
 		if (count($errors))
 		{
-			$html .= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF; border: 1px dashed #BBB; 
+			$html.= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF; border: 1px dashed #BBB; 
 			padding: 10px;">';
 			foreach ($errors as $error)
-				$html .= '<li>'.$error.'</li>';
-			$html .= '</ul>';
+				$html.= '<li>'.$error.'</li>';
+			$html.= '</ul>';
 		}
 
 
@@ -267,7 +265,7 @@ class PayFast extends PaymentModule
 		        
 
 	/* Display settings form */
-		$html .= '<div class="row"><div class="col-md-6">
+		$html.= '<div class="row"><div class="col-md-6">
 		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">
 		  <fieldset>
 		  <legend><a href="https://www.payfast.co.za" target="_blank">
@@ -287,7 +285,7 @@ class PayFast extends PaymentModule
 
                         </option>
                         <option value="test"'.(Configuration::get('PAYFAST_MODE') == 'test' ? ' selected="selected"' : '').'>'.$this->l('Test')
-                        .'</option>
+                       .'</option>
                       </select>
                     </div>
                  </div>
@@ -327,9 +325,9 @@ class PayFast extends PaymentModule
 			    </div>
 			</div>
 			<div class="row">
-			<p>'.$this->l('You can log the server-to-server communication. The log file for debugging can be found at ').' '
-			    .__PS_BASE_URI__.'modules/payfast/payfast.log. '.$this->l('If activated, be sure to protect it by putting a .htaccess file in the
-			    	same directory. If not, the file will be readable by everyone.').'</p>
+			<p>'.$this->l('You can log the server-to-server communication.The log file for debugging can be found at ').' '
+			   .__PS_BASE_URI__.'modules/payfast/payfast.log.'.$this->l('If activated, be sure to protect it by putting a.htaccess file in the
+			    	same directory.If not, the file will be readable by everyone.').'</p>
 			    <div class="col-md-4">
                     <label>
                       '.$this->l('Debug').'
@@ -350,9 +348,9 @@ class PayFast extends PaymentModule
 
 		   if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
 			
-				$html .= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast" 
+				$html.= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast" 
 			        src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
-			$html .= '</div>
+			$html.= '</div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -403,9 +401,9 @@ class PayFast extends PaymentModule
 			   					foreach ($block_position_list as $position => $translation)
 			   					{
 			   						$selected = ($current_logo_block_position == $position) ? 'selected="selected"' : '';
-			   						$html .= '<option value="'.$position.'" '.$selected.'>'.$translation.'</option>';
+			   						$html.= '<option value="'.$position.'" '.$selected.'>'.$translation.'</option>';
 			   					}
-			   			$html .= '</select></div>
+			   			$html.= '</select></div>
 			</div>
 
 			<div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="'.$this->l('   Save   ').'" />
@@ -417,7 +415,7 @@ class PayFast extends PaymentModule
 		  <p>- '.$this->l('In order to use your PayFast module, you must insert your PayFast Merchant ID and Merchant Key above.').'</p>
 		  <p>- '.$this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the PayFast payment gateway.').
 		  '<p>
-		  <p>- '.$this->l('It is possible to setup an automatic currency rate update using crontab. You will simply have to create a cron job with 
+		  <p>- '.$this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have to create a cron job with 
 		  	currency update link available at the bottom of "Currencies" section.').'<p>
 		</fieldset></div></div></div>
 		';
@@ -427,9 +425,9 @@ class PayFast extends PaymentModule
 	private function _displayLogoBlock($position)
 	{
         $filler = '';
-        if( $position )
+        if ($position)
         {
-            $filler .= '';
+            $filler.= '';
         }
 		return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
 		<img src="'.__PS_BASE_URI__.$filler.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
@@ -516,7 +514,7 @@ class PayFast extends PaymentModule
 		$pf_output = '';
 		// Create output string
 		foreach ( ($data['info']) as $key => $val)
-			$pf_output .= $key.'='.urlencode( trim( $val ) ).'&';    
+			$pf_output.= $key.'='.urlencode( trim( $val ) ).'&';    
 		$pass_phrase = Configuration::get( 'PAYFAST_PASSPHRASE' );
 		if ( empty( $pass_phrase ) || Configuration::get('PAYFAST_MODE') != 'live')
 		
@@ -557,25 +555,25 @@ class PayFast extends PaymentModule
         static $fh = 0;
 
         // Only log if debugging is enabled
-        if( PF_DEBUG )
+        if (PF_DEBUG)
         {
-            if( $close )
+            if ($close)
             {
                 fclose( $fh );
             }
             else
             {
                 // If file doesn't exist, create it
-                if( !$fh )
+                if (!$fh)
                 {
                     $pathinfo = pathinfo( __FILE__ );
-                    $fh = fopen( $pathinfo['dirname'] .'/payfast.log', 'a+' );
+                    $fh = fopen( $pathinfo['dirname'].'/payfast.log', 'a+' );
                 }
 
                 // If file was successfully created
                 if( $fh )
                 {
-                    $line = date( 'Y-m-d H:i:s' ) .' : '. $msg ."\n";
+                    $line = date( 'Y-m-d H:i:s' ).' : '.$msg."\n";
 
                     fwrite( $fh, $line );
                 }
@@ -612,11 +610,11 @@ class PayFast extends PaymentModule
     public static function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase=null )
     {
         // Dump the submitted variables and calculate security signature
-        foreach( $pfData as $key => $val )
+        foreach ($pfData as $key => $val)
         {
-            if( $key != 'signature' )
+            if ($key != 'signature')
             {
-                $pfParamString .= $key .'='. urlencode( $val ) .'&';
+                $pfParamString.= $key.'='.urlencode( $val ).'&';
             }
             else
             {
@@ -626,7 +624,7 @@ class PayFast extends PaymentModule
 
         $pfParamString = Tools::substr( $pfParamString, 0, -1 );
 
-        if( is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live' )
+        if (is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live')
         {
             $tempParamString = $pfParamString;
         }
@@ -639,7 +637,7 @@ class PayFast extends PaymentModule
 
         $result = ( $pfData['signature'] == $signature );
 
-        self::pflog( 'Signature = '. ( $result ? 'valid' : 'invalid' ) );
+        self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
 
         return( $result );
     }
@@ -654,14 +652,14 @@ class PayFast extends PaymentModule
      */
     public static function pfValidData( $pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
     {
-        self::pflog( 'Host = '. $pfHost );
-        self::pflog( 'Params = '. $pfParamString );
+        self::pflog( 'Host = '.$pfHost );
+        self::pflog( 'Params = '.$pfParamString );
 
         // Use cURL (if available)
-        if( defined( 'PF_CURL' ) && is_callable( 'curl_init' ) )
+        if (defined( 'PF_CURL' ) && is_callable( 'curl_init' ))
         {
             // Variable initialization
-            $url = 'https://'. $pfHost .'/eng/query/validate';
+            $url = 'https://'.$pfHost.'/eng/query/validate';
 
             // Create default cURL object
             $ch = curl_init();
@@ -679,7 +677,7 @@ class PayFast extends PaymentModule
             curl_setopt( $ch, CURLOPT_POST, true );
             curl_setopt( $ch, CURLOPT_POSTFIELDS, $pfParamString );
             curl_setopt( $ch, CURLOPT_TIMEOUT, PF_TIMEOUT );
-            if( !empty( $pfProxy ) )
+            if (!empty( $pfProxy ))
                 curl_setopt( $ch, CURLOPT_PROXY, $pfProxy);
 
             // Execute CURL
@@ -696,16 +694,16 @@ class PayFast extends PaymentModule
 
             // Construct Header
             $header = "POST /eng/query/validate HTTP/1.0\r\n";
-            $header .= "Host: ". $pfHost ."\r\n";
-            $header .= "User-Agent: ". PF_USER_AGENT ."\r\n";
-            $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $header .= "Content-Length: " . Tools::strlen( $pfParamString ) . "\r\n\r\n";
+            $header.= "Host: ".$pfHost."\r\n";
+            $header.= "User-Agent: ".PF_USER_AGENT."\r\n";
+            $header.= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $header.= "Content-Length: ".Tools::strlen( $pfParamString )."\r\n\r\n";
 
             // Connect to server
-            $socket = fsockopen( 'ssl://'. $pfHost, 443, $errno, $errstr, PF_TIMEOUT );
+            $socket = fsockopen( 'ssl://'.$pfHost, 443, $errno, $errstr, PF_TIMEOUT );
 
             // Send command to server
-            fputs( $socket, $header . $pfParamString );
+            fputs( $socket, $header.$pfParamString );
 
             // Read the response from the server
             while( !feof( $socket ) )
@@ -713,28 +711,28 @@ class PayFast extends PaymentModule
                 $line = fgets( $socket, 1024 );
 
                 // Check if we are finished reading the header yet
-                if( strcmp( $line, "\r\n" ) == 0 )
+                if (strcmp( $line, "\r\n" ) == 0)
                 {
                     // read the header
                     $headerDone = true;
                 }
                 // If header has been processed
-                else if( $headerDone )
+                else if ($headerDone)
                 {
                     // Read the main response
-                    $response .= $line;
+                    $response.= $line;
                 }
             }
 
         }
 
-        self::pflog( "Response:\n". print_r( $response, true ) );
+        self::pflog( "Response:\n".print_r( $response, true ) );
 
         // Interpret Response
         $lines = explode( "\r\n", $response );
         $verifyResult = trim( $lines[0] );
 
-        if( strcasecmp( $verifyResult, 'VALID' ) == 0 )
+        if (strcasecmp( $verifyResult, 'VALID' ) == 0)
             return( true );
         else
             return( false );
@@ -769,9 +767,9 @@ class PayFast extends PaymentModule
         // Remove duplicates
         $validIps = array_unique( $validIps );
 
-        self::pflog( "Valid IPs:\n". print_r( $validIps, true ) );
+        self::pflog( "Valid IPs:\n".print_r( $validIps, true ) );
 
-        if( in_array( $sourceIP, $validIps ) )
+        if (in_array( $sourceIP, $validIps ))
             return( true );
         else
             return( false );
@@ -784,7 +782,7 @@ class PayFast extends PaymentModule
      * point comparison with an Epsilon which ensures that insignificant decimal
      * places are ignored in the comparison.
      *
-     * eg. 100.00 is equal to 100.0001
+     * eg.100.00 is equal to 100.0001
      *
      * @author Jonathan Smit
      * @param $amount1 Float 1st amount for comparison
@@ -792,7 +790,7 @@ class PayFast extends PaymentModule
      */
     public static function pfAmountsEqual( $amount1, $amount2 )
     {
-        if( abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON )
+        if (abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON)
             return( false );
         else
             return( true );

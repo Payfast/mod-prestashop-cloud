@@ -59,7 +59,7 @@ if (Tools::getValue('itn_request') == 'true')
 		PayFast::pflog( 'Get posted data' );
 		/* Posted variables from ITN */
 		$pf_data = PayFast::pfGetData();
-		PayFast::pflog( 'PayFast Data: '.print_r( $pf_data, true ) );    
+		PayFast::pflog( 'PayFast Data: '.print_r( $pf_data, true ) );
 		if ($pf_data === false)
 		{
 			$pf_error = true;
