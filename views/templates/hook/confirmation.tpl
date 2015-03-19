@@ -1,5 +1,5 @@
 {*
-* 2007-2014 PrestaShop
+* 2011 - 2015 PayFast
 *
 * NOTICE OF LICENSE
 *
@@ -9,7 +9,7 @@
 * http://opensource.org/licenses/afl-3.0.php
 * If you did not receive a copy of the license and are unable to
 * obtain it through the world-wide-web, please send an email
-* to license@prestashop.com so we can send you a copy immediately.
+* to support@payfast.co.za so we can send you a copy immediately.
 *
 * DISCLAIMER
 *
@@ -17,12 +17,11 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2014 PrestaShop SA
+*  @author PayFast <support@payfast.co.za>
+*  @copyright  2011 - 2015 PayFast
 *  @license http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
+*
 *}
-
 {if $status == 'ok'}
     <p>{l s='Your order on' mod='payfast'} <span class="bold">{$shop_name|escape:'htmlall':'UTF-8'}</span> {l s='is complete.' mod='payfast'}
         <br /><br /><span class="bold">{l s='Your order will be shipped as soon as possible.' mod='payfast'}</span>
