@@ -39,22 +39,17 @@ $pfFeatures = 'PHP '.phpversion().';';
 
 if (in_array( 'curl', get_loaded_extensions() ))
 {
-    define( 'PF_CURL', '' );
-    $pfVersion = curl_version();
-    $pfFeatures.= ' curl '.$pfVersion['version'].';';
+	define( 'PF_CURL', '' );
+	$pfVersion = curl_version();
+	$pfFeatures .= ' curl '.$pfVersion['version'].';';
 }
 else
-    $pfFeatures.= ' nocurl;';
+	$pfFeatures .= ' nocurl;';
 
-// Create user agrent
+
 define( 'PF_USER_AGENT', PF_SOFTWARE_NAME.'/'.PF_SOFTWARE_VER.' ('.trim( $pfFeatures ).') '.PF_MODULE_NAME.'/'.PF_MODULE_VER );
-
-// General Defines
 define( 'PF_TIMEOUT', 15 );
 define( 'PF_EPSILON', 0.01 );
-
-// Messages
-    // Error
 define( 'PF_ERR_AMOUNT_MISMATCH', 'Amount mismatch' );
 define( 'PF_ERR_BAD_ACCESS', 'Bad access of page' );
 define( 'PF_ERR_BAD_SOURCE_IP', 'Bad source IP address' );
@@ -71,14 +66,12 @@ define( 'PF_ERR_PDT_FAIL', 'PDT query failed' );
 define( 'PF_ERR_PDT_TOKEN_MISSING', 'PDT token not present in URL' );
 define( 'PF_ERR_SESSIONID_MISMATCH', 'Session ID mismatch' );
 define( 'PF_ERR_UNKNOWN', 'Unkown error occurred' );
-
-    // General
 define( 'PF_MSG_OK', 'Payment was successful' );
 define( 'PF_MSG_FAILED', 'Payment has failed' );
 define( 'PF_MSG_PENDING',
-    'The payment is pending.Please note, you will receive another Instant'.
-    ' Transaction Notification when the payment status changes to'.
-    ' "Completed", or "Failed"' );
+	'The payment is pending.Please note, you will receive another Instant'.
+	' Transaction Notification when the payment status changes to'.
+	' "Completed", or "Failed"' );
 
 class PayFast extends PaymentModule
 {
@@ -180,7 +173,7 @@ class PayFast extends PaymentModule
 			if ( $pass_phrase = Tools::getValue( 'payfast_passphrase' ))
 			
 				 Configuration::updateValue( 'PAYFAST_PASSPHRASE', $pass_phrase );
-			            
+
 			$mode = ( Tools::getValue( 'payfast_mode' ) == 'live' ? 'live' : 'test' );
 			Configuration::updateValue('PAYFAST_MODE', $mode );
 			if ( $mode != 'test')
@@ -206,7 +199,7 @@ class PayFast extends PaymentModule
 				if ( !count( $errors ))
 				
 					Tools::redirectAdmin( AdminController::$currentIndex.'&configure=payfast&token='.Tools::getValue( 'token' ).'&conf=4' );
-				                
+
 			}
 			if ( Tools::getValue( 'payfast_logs' ))
 			
@@ -233,11 +226,11 @@ class PayFast extends PaymentModule
 		/* Display errors */
 		if (count($errors))
 		{
-			$html.= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF; border: 1px dashed #BBB; 
+			$html .= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF; border: 1px dashed #BBB;
 			padding: 10px;">';
 			foreach ($errors as $error)
-				$html.= '<li>'.$error.'</li>';
-			$html.= '</ul>';
+				$html .= '<li>'.$error.'</li>';
+			$html .= '</ul>';
 		}
 
 
@@ -262,148 +255,148 @@ class PayFast extends PaymentModule
 		else
 		
 			$current_logo_block_position = -1;
-		        
+
 
 	/* Display settings form */
-		$html.= '<div class="row"><div class="col-md-6">
+		$html .= '<div class="row"><div class="col-md-6">
 		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">
 		  <fieldset>
 		  <legend><a href="https://www.payfast.co.za" target="_blank">
-		  					<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/payfast.png" alt="PayFast" boreder="0" /></a>'.$this->l('Settings').'
-		  					</legend>
+							<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/payfast.png" alt="PayFast" boreder="0" /></a>'.$this->l('Settings').'
+							</legend>
 			<div class="row">
-			    <p>'.$this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems arise.
-			    				Remember to insert your merchant key and ID for the live mode.').'</p>
-                 <div class="col-md-4">
-                    <label>
-                      '.$this->l('Mode').'
-                    </label>
-                    </div>
-                    <div class="col-md-8">
-                      <select name="payfast_mode">
-                        <option value="live"'.(Configuration::get('PAYFAST_MODE') == 'live' ? ' selected="selected"' : '').'>'.$this->l('Live').'
+				<p>'.$this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems arise.
+								Remember to insert your merchant key and ID for the live mode.').'</p>
+				 <div class="col-md-4">
+					<label>
+					  '.$this->l('Mode').'
+					</label>
+					</div>
+					<div class="col-md-8">
+					  <select name="payfast_mode">
+						<option value="live"'.(Configuration::get('PAYFAST_MODE') == 'live' ? ' selected="selected"' : '').'>'.$this->l('Live').'
 
-                        </option>
-                        <option value="test"'.(Configuration::get('PAYFAST_MODE') == 'test' ? ' selected="selected"' : '').'>'.$this->l('Test')
-                       .'</option>
-                      </select>
-                    </div>
-                 </div>
-             <div class="row">
-			    <p>'.$this->l('You can find your ID and Key in your PayFast account > My Account > Integration.').'</p>
-                <div class="col-md-4">
-                    <label>
-                      '.$this->l('Merchant ID').'
-                    </label>
-                </div>
-                <div class="col-md-8">
-                  <input type="text" name="payfast_merchant_id" value="'.Tools::getValue('payfast_merchant_id',
-                    Configuration::get('PAYFAST_MERCHANT_ID')).'" >
-                </div>
+						</option>
+						<option value="test"'.(Configuration::get('PAYFAST_MODE') == 'test' ? ' selected="selected"' : '').'>'.$this->l('Test')
+					   .'</option>
+					  </select>
+					</div>
+				 </div>
+			 <div class="row">
+				<p>'.$this->l('You can find your ID and Key in your PayFast account > My Account > Integration.').'</p>
+				<div class="col-md-4">
+					<label>
+					  '.$this->l('Merchant ID').'
+					</label>
+				</div>
+				<div class="col-md-8">
+				  <input type="text" name="payfast_merchant_id" value="'.Tools::getValue('payfast_merchant_id',
+					Configuration::get('PAYFAST_MERCHANT_ID')).'" >
+				</div>
 			</div>
 			<div class="row">
-                <div class="col-md-4">
-                    <label>
-                      '.$this->l('Merchant Key').'
-                    </label>
-                    </div>
-                <div class="col-md-8">
-			        <input type="text" name="payfast_merchant_key" value="'.trim(Tools::getValue('payfast_merchant_key',
-                    Configuration::get('PAYFAST_MERCHANT_KEY'))).'" />
-			    </div>
+				<div class="col-md-4">
+					<label>
+					  '.$this->l('Merchant Key').'
+					</label>
+					</div>
+				<div class="col-md-8">
+					<input type="text" name="payfast_merchant_key" value="'.trim(Tools::getValue('payfast_merchant_key',
+					Configuration::get('PAYFAST_MERCHANT_KEY'))).'" />
+				</div>
 			<div class="row">
 			<p>'.$this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE OF THE LOGGED IN AREA OF THE
-			    				PAYFAST WEBSITE!!!!!').'</p>
-			    <div class="col-md-4">'.
-                '<label>
-                  '.$this->l('Secure Passphrase').'
-                </label>
+								PAYFAST WEBSITE!!!!!').'</p>
+				<div class="col-md-4">'.
+				'<label>
+				  '.$this->l('Secure Passphrase').'
+				</label>
 			</div>
 			<div class="col-md-8">
 			  <input type="text" name="payfast_passphrase" value="'.trim(Tools::getValue('payfast_passphrase', 
-			  	Configuration::get('PAYFAST_PASSPHRASE'))).'" />
-			    </div>
+				Configuration::get('PAYFAST_PASSPHRASE'))).'" />
+				</div>
 			</div>
 			<div class="row">
 			<p>'.$this->l('You can log the server-to-server communication.The log file for debugging can be found at ').' '
 			   .__PS_BASE_URI__.'modules/payfast/payfast.log.'.$this->l('If activated, be sure to protect it by putting a.htaccess file in the
-			    	same directory.If not, the file will be readable by everyone.').'</p>
-			    <div class="col-md-4">
-                    <label>
-                      '.$this->l('Debug').'
-                    </label>
-                </div>
-                <div class="col-md-8">
-                  <input type="checkbox" name="payfast_logs"'.(Tools::getValue('payfast_logs',
-                    Configuration::get('PAYFAST_LOGS')) ? ' checked="checked"' : '').' />
-                </div>
-            </div>
+					same directory.If not, the file will be readable by everyone.').'</p>
+				<div class="col-md-4">
+					<label>
+					  '.$this->l('Debug').'
+					</label>
+				</div>
+				<div class="col-md-8">
+				  <input type="checkbox" name="payfast_logs"'.(Tools::getValue('payfast_logs',
+					Configuration::get('PAYFAST_LOGS')) ? ' checked="checked"' : '').' />
+				</div>
+			</div>
 			<div class="row">
-			    <p>'.$this->l('During checkout the following is what the client gets to click on to pay with PayFast.').'</p>
-			    <div class="col-md-4">
-			        <label>&nbsp;</label>
-                 </div>
-			    <div class="col-md-8">
+				<p>'.$this->l('During checkout the following is what the client gets to click on to pay with PayFast.').'</p>
+				<div class="col-md-4">
+					<label>&nbsp;</label>
+				 </div>
+				<div class="col-md-8">
 				'.Configuration::get('PAYFAST_PAYNOW_TEXT');
 
 		   if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
 			
-				$html.= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast" 
-			        src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
-			$html.= '</div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <label>
-                    '.$this->l('PayNow Text').'
-                    </label>
-			    </div>
-			    <div class="col-md-8">
-				    <input type="text" name="payfast_paynow_text" value="'.Configuration::get('PAYFAST_PAYNOW_TEXT').'">
-			    </div>
+				$html .= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast"
+					src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
+			$html .= '</div>
 			</div>
 			<div class="row">
-			    <div class="col-md-4">
-                    <label>
-                    '.$this->l('PayNow Logo').'
-                    </label>
-			    </div>
-                <div class="col-md-8">
-                    <input type="radio" name="payfast_paynow_logo" value="off"
-                    '.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'off' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('None').'<br>
-                    <input type="radio" name="payfast_paynow_logo" value="on"
-                    '.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on' ? ' checked="checked"' : '').'
-                    "> &nbsp; <img src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">
-                </div>
-            </div>
-			<div class="row">
-			    <div class="col-md-4">
-                    <label>
-                    '.$this->l('PayNow Logo Align').'
-                    </label>
-			    </div>
-                <div class="col-md-8">
-                    <input type="radio" name="payfast_paynow_align" value="left"
-                '.( Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'left' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('Left').'<br>
-                    <input type="radio" name="payfast_paynow_align" value="right"
-                '.( Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'right' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('Right').'
-                </div>
+				<div class="col-md-4">
+					<label>
+					'.$this->l('PayNow Text').'
+					</label>
+				</div>
+				<div class="col-md-8">
+					<input type="text" name="payfast_paynow_text" value="'.Configuration::get('PAYFAST_PAYNOW_TEXT').'">
+				</div>
 			</div>
 			<div class="row">
-			    <p>'.$this->l('Where would you like the the Secure Payments made with PayFast image to appear on your website?').'</p>
+				<div class="col-md-4">
+					<label>
+					'.$this->l('PayNow Logo').'
+					</label>
+				</div>
+				<div class="col-md-8">
+					<input type="radio" name="payfast_paynow_logo" value="off"
+					'.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'off' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('None').'<br>
+					<input type="radio" name="payfast_paynow_logo" value="on"
+					'.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on' ? ' checked="checked"' : '').'
+					"> &nbsp; <img src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<label>
+					'.$this->l('PayNow Logo Align').'
+					</label>
+				</div>
+				<div class="col-md-8">
+					<input type="radio" name="payfast_paynow_align" value="left"
+				'.( Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'left' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('Left').'<br>
+					<input type="radio" name="payfast_paynow_align" value="right"
+				'.( Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'right' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('Right').'
+				</div>
+			</div>
+			<div class="row">
+				<p>'.$this->l('Where would you like the the Secure Payments made with PayFast image to appear on your website?').'</p>
 			   <div class="col-md-4">
-                     <label>
-                     			'.$this->l('Select the image position').'
-                     			<label>
+					 <label>
+								'.$this->l('Select the image position').'
+								<label>
 			   </div>
 			   <div class="col-md-8">
-			   				  <select class="form-control" name="logo_position">';
-			   					foreach ($block_position_list as $position => $translation)
-			   					{
-			   						$selected = ($current_logo_block_position == $position) ? 'selected="selected"' : '';
-			   						$html.= '<option value="'.$position.'" '.$selected.'>'.$translation.'</option>';
-			   					}
-			   			$html.= '</select></div>
+							  <select class="form-control" name="logo_position">';
+								foreach ($block_position_list as $position => $translation)
+								{
+									$selected = ($current_logo_block_position == $position) ? 'selected="selected"' : '';
+									$html .= '<option value="'.$position.'" '.$selected.'>'.$translation.'</option>';
+								}
+						$html .= '</select></div>
 			</div>
 
 			<div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="'.$this->l('   Save   ').'" />
@@ -416,7 +409,7 @@ class PayFast extends PaymentModule
 		  <p>- '.$this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the PayFast payment gateway.').
 		  '<p>
 		  <p>- '.$this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have to create a cron job with 
-		  	currency update link available at the bottom of "Currencies" section.').'<p>
+			currency update link available at the bottom of "Currencies" section.').'<p>
 		</fieldset></div></div></div>
 		';
 		return $html;
@@ -424,11 +417,11 @@ class PayFast extends PaymentModule
 
 	private function _displayLogoBlock($position)
 	{
-        $filler = '';
-        if ($position)
-        {
-            $filler.= '';
-        }
+		$filler = '';
+		if ($position)
+		{
+			$filler .= '';
+		}
 		return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
 		<img src="'.__PS_BASE_URI__.$filler.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
 	}
@@ -454,8 +447,8 @@ class PayFast extends PaymentModule
 
 	public function hookPayment($params)
 	{ 
-        $cookie = $this->context->cookie->payfast;
-        $cart = $this->context->cart;
+		$cookie = $this->context->cookie->payfast;
+		$cart = $this->context->cart;
 		if (!$this->active)
 		
 			return;        
@@ -514,7 +507,7 @@ class PayFast extends PaymentModule
 		$pf_output = '';
 		// Create output string
 		foreach ( ($data['info']) as $key => $val)
-			$pf_output.= $key.'='.urlencode( trim( $val ) ).'&';    
+			$pf_output .= $key.'='.urlencode( trim( $val ) ).'&';
 		$pass_phrase = Configuration::get( 'PAYFAST_PASSPHRASE' );
 		if ( empty( $pass_phrase ) || Configuration::get('PAYFAST_MODE') != 'live')
 		
@@ -541,260 +534,260 @@ class PayFast extends PaymentModule
 	}
 
 
-    /**
-     * self::pflog
-     *
-     * Log function for logging output.
-     *
-     * @author Jonathan Smit
-     * @param $msg String Message to log
-     * @param $close Boolean Whether to close the log file or not
-     */
-    public static function pflog( $msg = '', $close = false )
-    {
-        static $fh = 0;
+	/**
+	 * self::pflog
+	 *
+	 * Log function for logging output.
+	 *
+	 * @author Jonathan Smit
+	 * @param $msg String Message to log
+	 * @param $close Boolean Whether to close the log file or not
+	 */
+	public static function pflog( $msg = '', $close = false )
+	{
+		static $fh = 0;
 
-        // Only log if debugging is enabled
-        if (PF_DEBUG)
-        {
-            if ($close)
-            {
-                fclose( $fh );
-            }
-            else
-            {
-                // If file doesn't exist, create it
-                if (!$fh)
-                {
-                    $pathinfo = pathinfo( __FILE__ );
-                    $fh = fopen( $pathinfo['dirname'].'/payfast.log', 'a+' );
-                }
+		// Only log if debugging is enabled
+		if (PF_DEBUG)
+		{
+			if ($close)
+			{
+				fclose( $fh );
+			}
+			else
+			{
+				// If file doesn't exist, create it
+				if (!$fh)
+				{
+					$pathinfo = pathinfo( __FILE__ );
+					$fh = fopen( $pathinfo['dirname'].'/payfast.log', 'a+' );
+				}
 
-                // If file was successfully created
-                if( $fh )
-                {
-                    $line = date( 'Y-m-d H:i:s' ).' : '.$msg."\n";
+				// If file was successfully created
+				if( $fh )
+				{
+					$line = date( 'Y-m-d H:i:s' ).' : '.$msg."\n";
 
-                    fwrite( $fh, $line );
-                }
-            }
-        }
-    }
+					fwrite( $fh, $line );
+				}
+			}
+		}
+	}
 
-    /**
-     * pfGetData
-     *
-     * @author Jonathan Smit
-     */
-    public static function pfGetData()
-    {
-        // Posted variables from ITN
-        $pfData = $_POST;
+	/**
+	 * pfGetData
+	 *
+	 * @author Jonathan Smit
+	 */
+	public static function pfGetData()
+	{
+		// Posted variables from ITN
+		$pfData = $_POST;
 
-        // Strip any slashes in data
-        foreach( $pfData as $key => $val )
-            $pfData[$key] = Tools::stripslashes( $val );
+		// Strip any slashes in data
+		foreach( $pfData as $key => $val )
+			$pfData[$key] = Tools::stripslashes( $val );
 
-        // Return "false" if no data was received
-        if( sizeof( $pfData ) == 0 )
-            return( false );
-        else
-            return( $pfData );
-    }
+		// Return "false" if no data was received
+		if( sizeof( $pfData ) == 0 )
+			return( false );
+		else
+			return( $pfData );
+	}
 
-    /**
-     * pfValidSignature
-     *
-     * @author Jonathan Smit
-     */
-    public static function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase=null )
-    {
-        // Dump the submitted variables and calculate security signature
-        foreach ($pfData as $key => $val)
-        {
-            if ($key != 'signature')
-            {
-                $pfParamString.= $key.'='.urlencode( $val ).'&';
-            }
-            else
-            {
-                break;
-            }
-        }
+	/**
+	 * pfValidSignature
+	 *
+	 * @author Jonathan Smit
+	 */
+	public static function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase=null )
+	{
+		// Dump the submitted variables and calculate security signature
+		foreach ($pfData as $key => $val)
+		{
+			if ($key != 'signature')
+			{
+				$pfParamString .= $key.'='.urlencode( $val ).'&';
+			}
+			else
+			{
+				break;
+			}
+		}
 
-        $pfParamString = Tools::substr( $pfParamString, 0, -1 );
+		$pfParamString = Tools::substr( $pfParamString, 0, -1 );
 
-        if (is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live')
-        {
-            $tempParamString = $pfParamString;
-        }
-        else
-        {
-            $tempParamString = $pfParamString."&passphrase=".urlencode( $pfPassphrase );
-        }
+		if (is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live')
+		{
+			$tempParamString = $pfParamString;
+		}
+		else
+		{
+			$tempParamString = $pfParamString."&passphrase=".urlencode( $pfPassphrase );
+		}
 
-        $signature = md5( $tempParamString );
+		$signature = md5( $tempParamString );
 
-        $result = ( $pfData['signature'] == $signature );
+		$result = ( $pfData['signature'] == $signature );
 
-        self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
+		self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
 
-        return( $result );
-    }
+		return( $result );
+	}
 
-    /**
-     * pfValidData
-     *
-     * @author Jonathan Smit
-     * @param $pfHost String Hostname to use
-     * @param $pfParamString String Parameter string to send
-     * @param $proxy String Address of proxy to use or NULL if no proxy
-     */
-    public static function pfValidData( $pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
-    {
-        self::pflog( 'Host = '.$pfHost );
-        self::pflog( 'Params = '.$pfParamString );
+	/**
+	 * pfValidData
+	 *
+	 * @author Jonathan Smit
+	 * @param $pfHost String Hostname to use
+	 * @param $pfParamString String Parameter string to send
+	 * @param $proxy String Address of proxy to use or NULL if no proxy
+	 */
+	public static function pfValidData( $pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
+	{
+		self::pflog( 'Host = '.$pfHost );
+		self::pflog( 'Params = '.$pfParamString );
 
-        // Use cURL (if available)
-        if (defined( 'PF_CURL' ) && is_callable( 'curl_init' ))
-        {
-            // Variable initialization
-            $url = 'https://'.$pfHost.'/eng/query/validate';
+		// Use cURL (if available)
+		if (defined( 'PF_CURL' ) && is_callable( 'curl_init' ))
+		{
+			// Variable initialization
+			$url = 'https://'.$pfHost.'/eng/query/validate';
 
-            // Create default cURL object
-            $ch = curl_init();
+			// Create default cURL object
+			$ch = curl_init();
 
-            // Set cURL options - Use curl_setopt for freater PHP compatibility
-            // Base settings
-            curl_setopt( $ch, CURLOPT_USERAGENT, PF_USER_AGENT );  // Set user agent
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );      // Return output as string rather than outputting it
-            curl_setopt( $ch, CURLOPT_HEADER, false );             // Don't include header in output
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 2 );
-            curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+			// Set cURL options - Use curl_setopt for freater PHP compatibility
+			// Base settings
+			curl_setopt( $ch, CURLOPT_USERAGENT, PF_USER_AGENT );  // Set user agent
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );      // Return output as string rather than outputting it
+			curl_setopt( $ch, CURLOPT_HEADER, false );             // Don't include header in output
+			curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 2 );
+			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
 
-            // Standard settings
-            curl_setopt( $ch, CURLOPT_URL, $url );
-            curl_setopt( $ch, CURLOPT_POST, true );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $pfParamString );
-            curl_setopt( $ch, CURLOPT_TIMEOUT, PF_TIMEOUT );
-            if (!empty( $pfProxy ))
-                curl_setopt( $ch, CURLOPT_PROXY, $pfProxy);
+			// Standard settings
+			curl_setopt( $ch, CURLOPT_URL, $url );
+			curl_setopt( $ch, CURLOPT_POST, true );
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, $pfParamString );
+			curl_setopt( $ch, CURLOPT_TIMEOUT, PF_TIMEOUT );
+			if (!empty( $pfProxy ))
+				curl_setopt( $ch, CURLOPT_PROXY, $pfProxy);
 
-            // Execute CURL
-            $response = curl_exec( $ch );
-            curl_close( $ch );
-        }
-        // Use fsockopen
-        else
-        {
-            // Variable initialization
-            $header = '';
-            $response = '';
-            $headerDone = false;
+			// Execute CURL
+			$response = curl_exec( $ch );
+			curl_close( $ch );
+		}
+		// Use fsockopen
+		else
+		{
+			// Variable initialization
+			$header = '';
+			$response = '';
+			$headerDone = false;
 
-            // Construct Header
-            $header = "POST /eng/query/validate HTTP/1.0\r\n";
-            $header.= "Host: ".$pfHost."\r\n";
-            $header.= "User-Agent: ".PF_USER_AGENT."\r\n";
-            $header.= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $header.= "Content-Length: ".Tools::strlen( $pfParamString )."\r\n\r\n";
+			// Construct Header
+			$header = "POST /eng/query/validate HTTP/1.0\r\n";
+			$header .= "Host: ".$pfHost."\r\n";
+			$header .= "User-Agent: ".PF_USER_AGENT."\r\n";
+			$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+			$header .= "Content-Length: ".Tools::strlen( $pfParamString )."\r\n\r\n";
 
-            // Connect to server
-            $socket = fsockopen( 'ssl://'.$pfHost, 443, $errno, $errstr, PF_TIMEOUT );
+			// Connect to server
+			$socket = fsockopen( 'ssl://'.$pfHost, 443, $errno, $errstr, PF_TIMEOUT );
 
-            // Send command to server
-            fputs( $socket, $header.$pfParamString );
+			// Send command to server
+			fputs( $socket, $header.$pfParamString );
 
-            // Read the response from the server
-            while( !feof( $socket ) )
-            {
-                $line = fgets( $socket, 1024 );
+			// Read the response from the server
+			while( !feof( $socket ) )
+			{
+				$line = fgets( $socket, 1024 );
 
-                // Check if we are finished reading the header yet
-                if (strcmp( $line, "\r\n" ) == 0)
-                {
-                    // read the header
-                    $headerDone = true;
-                }
-                // If header has been processed
-                else if ($headerDone)
-                {
-                    // Read the main response
-                    $response.= $line;
-                }
-            }
+				// Check if we are finished reading the header yet
+				if (strcmp( $line, "\r\n" ) == 0)
+				{
+					// read the header
+					$headerDone = true;
+				}
+				// If header has been processed
+				else if ($headerDone)
+				{
+					// Read the main response
+					$response .= $line;
+				}
+			}
 
-        }
+		}
 
-        self::pflog( "Response:\n".print_r( $response, true ) );
+		self::pflog( "Response:\n".print_r( $response, true ) );
 
-        // Interpret Response
-        $lines = explode( "\r\n", $response );
-        $verifyResult = trim( $lines[0] );
+		// Interpret Response
+		$lines = explode( "\r\n", $response );
+		$verifyResult = trim( $lines[0] );
 
-        if (strcasecmp( $verifyResult, 'VALID' ) == 0)
-            return( true );
-        else
-            return( false );
-    }
+		if (strcasecmp( $verifyResult, 'VALID' ) == 0)
+			return( true );
+		else
+			return( false );
+	}
 
-    /**
-     * pfValidIP
-     *
-     * @author Jonathan Smit
-     * @param $sourceIP String Source IP address
-     */
-    public static function pfValidIP( $sourceIP )
-    {
-        // Variable initialization
-        $validHosts = array(
-            'www.payfast.co.za',
-            'sandbox.payfast.co.za',
-            'w1w.payfast.co.za',
-            'w2w.payfast.co.za',
-            );
+	/**
+	 * pfValidIP
+	 *
+	 * @author Jonathan Smit
+	 * @param $sourceIP String Source IP address
+	 */
+	public static function pfValidIP( $sourceIP )
+	{
+		// Variable initialization
+		$validHosts = array(
+			'www.payfast.co.za',
+			'sandbox.payfast.co.za',
+			'w1w.payfast.co.za',
+			'w2w.payfast.co.za',
+			);
 
-        $validIps = array();
+		$validIps = array();
 
-        foreach( $validHosts as $pfHostname )
-        {
-            $ips = gethostbynamel( $pfHostname );
+		foreach( $validHosts as $pfHostname )
+		{
+			$ips = gethostbynamel( $pfHostname );
 
-            if( $ips !== false )
-                $validIps = array_merge( $validIps, $ips );
-        }
+			if( $ips !== false )
+				$validIps = array_merge( $validIps, $ips );
+		}
 
-        // Remove duplicates
-        $validIps = array_unique( $validIps );
+		// Remove duplicates
+		$validIps = array_unique( $validIps );
 
-        self::pflog( "Valid IPs:\n".print_r( $validIps, true ) );
+		self::pflog( "Valid IPs:\n".print_r( $validIps, true ) );
 
-        if (in_array( $sourceIP, $validIps ))
-            return( true );
-        else
-            return( false );
-    }
+		if (in_array( $sourceIP, $validIps ))
+			return( true );
+		else
+			return( false );
+	}
 
-    /**
-     * pfAmountsEqual
-     *
-     * Checks to see whether the given amounts are equal using a proper floating
-     * point comparison with an Epsilon which ensures that insignificant decimal
-     * places are ignored in the comparison.
-     *
-     * eg.100.00 is equal to 100.0001
-     *
-     * @author Jonathan Smit
-     * @param $amount1 Float 1st amount for comparison
-     * @param $amount2 Float 2nd amount for comparison
-     */
-    public static function pfAmountsEqual( $amount1, $amount2 )
-    {
-        if (abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON)
-            return( false );
-        else
-            return( true );
-    }
+	/**
+	 * pfAmountsEqual
+	 *
+	 * Checks to see whether the given amounts are equal using a proper floating
+	 * point comparison with an Epsilon which ensures that insignificant decimal
+	 * places are ignored in the comparison.
+	 *
+	 * eg.100.00 is equal to 100.0001
+	 *
+	 * @author Jonathan Smit
+	 * @param $amount1 Float 1st amount for comparison
+	 * @param $amount2 Float 2nd amount for comparison
+	 */
+	public static function pfAmountsEqual( $amount1, $amount2 )
+	{
+		if (abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON)
+			return( false );
+		else
+			return( true );
+	}
 
 }
 
