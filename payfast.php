@@ -187,13 +187,10 @@ class PayFast extends PaymentModule
 					Tools::redirectAdmin( AdminController::$currentIndex.'&configure=payfast&token='.Tools::getValue( 'token' ).'&conf=4' );
 			}
 			if (Tools::getValue( 'payfast_logs' ))
-			
 				Configuration::updateValue( 'PAYFAST_LOGS', 1 );
-			
 			else
-			
 				Configuration::updateValue( 'PAYFAST_LOGS', 0 );
-			 
+
 			foreach (array('displayLeftColumn', 'displayRightColumn', 'displayFooter') as $hook_name)
 				if ($this->isRegisteredInHook($hook_name))
 					$this->unregisterHook($hook_name);
@@ -263,7 +260,7 @@ class PayFast extends PaymentModule
 
 						</option>
 						<option value="test"'.(Configuration::get('PAYFAST_MODE') == 'test' ? ' selected="selected"' : '').'>'.$this->l('Test')
-					   .'</option>
+		         .'</option>
 					  </select>
 					</div>
 				 </div>
@@ -506,7 +503,7 @@ class PayFast extends PaymentModule
 		return $this->display(__FILE__, 'views/templates/hook/payment.tpl');
 	}
 
-	public function hookPaymentReturn($params)
+	public function hookPaymentreturn ($params)
 	{
 		if (!$this->active)
 		
@@ -527,7 +524,7 @@ class PayFast extends PaymentModule
 	 * @param $msg String Message to log
 	 * @param $close Boolean Whether to close the log file or not
 	 */
-	public static function pflog( $msg = '', $close = false )
+	public static function pflog($msg = '', $close = false )
 	{
 		static $fh = 0;
 
@@ -546,7 +543,7 @@ class PayFast extends PaymentModule
 				}
 
 				// If file was successfully created
-				if( $fh )
+				if ($fh)
 				{
 					$line = date( 'Y-m-d H:i:s' ).' : '.$msg."\n";
 
@@ -563,18 +560,16 @@ class PayFast extends PaymentModule
 	 */
 	public static function pfGetData()
 	{
-		// Posted variables from ITN
+
 		$pfData = $_POST;
 
-		// Strip any slashes in data
-		foreach( $pfData as $key => $val )
+		foreach ($pfData as $key => $val)
 			$pfData[$key] = Tools::stripslashes( $val );
 
-		// Return "false" if no data was received
-		if( sizeof( $pfData ) == 0 )
-			return( false );
+		if (sizeof( $pfData ) == 0)
+			return ( false );
 		else
-			return( $pfData );
+			return ( $pfData );
 	}
 
 	/**
@@ -582,7 +577,7 @@ class PayFast extends PaymentModule
 	 *
 	 * @author Jonathan Smit
 	 */
-	public static function pfValidSignature( $pfData = null, &$pfParamString = null, $pfPassphrase=null )
+	public static function pfValidSignature($pfData = null, &$pfParamString = null, $pfPassphrase = null )
 	{
 		// Dump the submitted variables and calculate security signature
 		foreach ($pfData as $key => $val)
@@ -606,7 +601,7 @@ class PayFast extends PaymentModule
 
 		self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
 
-		return( $result );
+		return ( $result );
 	}
 
 	/**
@@ -617,7 +612,7 @@ class PayFast extends PaymentModule
 	 * @param $pfParamString String Parameter string to send
 	 * @param $proxy String Address of proxy to use or NULL if no proxy
 	 */
-	public static function pfValidData( $pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
+	public static function pfValidData($pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
 	{
 		self::pflog( 'Host = '.$pfHost );
 		self::pflog( 'Params = '.$pfParamString );
@@ -661,10 +656,10 @@ class PayFast extends PaymentModule
 
 			// Construct Header
 			$header = "POST /eng/query/validate HTTP/1.0\r\n";
-			$header .= "Host: ".$pfHost."\r\n";
-			$header .= "User-Agent: ".PF_USER_AGENT."\r\n";
+			$header .= 'Host: '.$pfHost."\r\n";
+			$header .= 'User-Agent: '.PF_USER_AGENT."\r\n";
 			$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-			$header .= "Content-Length: ".Tools::strlen( $pfParamString )."\r\n\r\n";
+			$header .= 'Content-Length: '.Tools::strlen( $pfParamString )."\r\n\r\n";
 
 			// Connect to server
 			$socket = fsockopen( 'ssl://'.$pfHost, 443, $errno, $errstr, PF_TIMEOUT );
@@ -673,7 +668,7 @@ class PayFast extends PaymentModule
 			fputs( $socket, $header.$pfParamString );
 
 			// Read the response from the server
-			while( !feof( $socket ) )
+			while (!feof( $socket ))
 			{
 				$line = fgets( $socket, 1024 );
 
@@ -700,9 +695,9 @@ class PayFast extends PaymentModule
 		$verifyResult = trim( $lines[0] );
 
 		if (strcasecmp( $verifyResult, 'VALID' ) == 0)
-			return( true );
+			return ( true );
 		else
-			return( false );
+			return ( false );
 	}
 
 	/**
@@ -711,7 +706,7 @@ class PayFast extends PaymentModule
 	 * @author Jonathan Smit
 	 * @param $sourceIP String Source IP address
 	 */
-	public static function pfValidIP( $sourceIP )
+	public static function pfValidIP($sourceIP)
 	{
 		// Variable initialization
 		$validHosts = array(
@@ -723,23 +718,22 @@ class PayFast extends PaymentModule
 
 		$validIps = array();
 
-		foreach( $validHosts as $pfHostname )
+		foreach ($validHosts as $pfHostname)
 		{
 			$ips = gethostbynamel( $pfHostname );
 
-			if( $ips !== false)
+			if ($ips !== false)
 				$validIps = array_merge( $validIps, $ips );
 		}
 
-		// Remove duplicates
 		$validIps = array_unique( $validIps );
 
 		self::pflog( "Valid IPs:\n".print_r( $validIps, true ) );
 
 		if (in_array( $sourceIP, $validIps ))
-			return( true );
+			return ( true );
 		else
-			return( false );
+			return ( false );
 	}
 
 	/**
@@ -755,14 +749,13 @@ class PayFast extends PaymentModule
 	 * @param $amount1 Float 1st amount for comparison
 	 * @param $amount2 Float 2nd amount for comparison
 	 */
-	public static function pfAmountsEqual( $amount1, $amount2 )
+	public static function pfAmountsEqual($amount1, $amount2)
 	{
-		if (abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON)
-			return( false );
+		if (abs( (float)$amount1 - (float)$amount2  ) > PF_EPSILON)
+			return ( false );
 		else
-			return( true );
+			return ( true );
 	}
-
 }
 
 
