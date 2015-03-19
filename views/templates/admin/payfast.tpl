@@ -27,7 +27,7 @@
 <form id='payfastPayNow' action="{$data.payfast_url|escape:'htmlall':'UTF-8'}" method="post">
 	<p class="payment_module"> 
 	{foreach $data.info as $k=>$v}
-		<input type="hidden" name="{$k}" value="{$v}" />
+		<input type="hidden" name="{$k|escape:'htmlall':'UTF-8'}" value="{$v|escape:'htmlall':'UTF-8'}" />
 	{/foreach}  
 	 <a href='#' onclick='document.getElementById("payfastPayNow").submit();return false;'>{$data.payfast_paynow_text|escape:'htmlall':'UTF-8'}
 	  {if $data.payfast_paynow_logo=='on'} <img align='{$data.payfast_paynow_align}' alt='Pay Now With PayFast' title='Pay Now With PayFast' src="{$base_dir}modules/payfast/views/img/logo.png">{/if}</a>
