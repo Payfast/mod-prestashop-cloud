@@ -271,7 +271,7 @@ class PayFast extends PaymentModule
 		<form action="'.$_SERVER['REQUEST_URI'].'" method="post">
 		  <fieldset>
 		  <legend><a href="https://www.payfast.co.za" target="_blank">
-		  					<img src="'.__PS_BASE_URI__.'modules/payfast/img/payfast.png" alt="PayFast" boreder="0" /></a>'.$this->l('Settings').'
+		  					<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/payfast.png" alt="PayFast" boreder="0" /></a>'.$this->l('Settings').'
 		  					</legend>
 			<div class="row">
 			    <p>'.$this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems arise.
@@ -351,7 +351,7 @@ class PayFast extends PaymentModule
 		   if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
 			
 				$html .= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast" 
-			        src="'.__PS_BASE_URI__.'modules/payfast/img/logo.png">';
+			        src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
 			$html .= '</div>
             </div>
             <div class="row">
@@ -375,7 +375,7 @@ class PayFast extends PaymentModule
                     '.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'off' ? ' checked="checked"' : '').'"> &nbsp; '.$this->l('None').'<br>
                     <input type="radio" name="payfast_paynow_logo" value="on"
                     '.( Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on' ? ' checked="checked"' : '').'
-                    "> &nbsp; <img src="'.__PS_BASE_URI__.'modules/payfast/img/logo.png">
+                    "> &nbsp; <img src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">
                 </div>
             </div>
 			<div class="row">
@@ -427,7 +427,7 @@ class PayFast extends PaymentModule
 	private function _displayLogoBlock($position)
 	{      
 		return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
-		<img src="'.__PS_BASE_URI__.'modules/payfast/img/secure_logo.png" width="150" /></a></div>';
+		<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
 	}
 
 	public function hookDisplayRightColumn($params)
@@ -444,7 +444,7 @@ class PayFast extends PaymentModule
 	{
 		$html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">        
 		<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
-		<img src="'.__PS_BASE_URI__.'modules/payfast/img/secure_logo.png"  /></a></div>
+		<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/secure_logo.png"  /></a></div>
 		</section>';
 		return $html;
 	}    
@@ -550,7 +550,6 @@ class PayFast extends PaymentModule
     public static function pflog( $msg = '', $close = false )
     {
         static $fh = 0;
-        global $module;
 
         // Only log if debugging is enabled
         if( PF_DEBUG )
@@ -591,7 +590,7 @@ class PayFast extends PaymentModule
 
         // Strip any slashes in data
         foreach( $pfData as $key => $val )
-            $pfData[$key] = stripslashes( $val );
+            $pfData[$key] = Tools::stripslashes( $val );
 
         // Return "false" if no data was received
         if( sizeof( $pfData ) == 0 )
@@ -620,7 +619,7 @@ class PayFast extends PaymentModule
             }
         }
 
-        $pfParamString = substr( $pfParamString, 0, -1 );
+        $pfParamString = Tools::substr( $pfParamString, 0, -1 );
 
         if( is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live' )
         {
@@ -654,7 +653,7 @@ class PayFast extends PaymentModule
         self::pflog( 'Params = '. $pfParamString );
 
         // Use cURL (if available)
-        if( defined( 'PF_CURL' ) )
+        if( defined( 'PF_CURL' ) && is_callable( 'curl_init' ) )
         {
             // Variable initialization
             $url = 'https://'. $pfHost .'/eng/query/validate';
@@ -676,7 +675,7 @@ class PayFast extends PaymentModule
             curl_setopt( $ch, CURLOPT_POSTFIELDS, $pfParamString );
             curl_setopt( $ch, CURLOPT_TIMEOUT, PF_TIMEOUT );
             if( !empty( $pfProxy ) )
-                curl_setopt( $ch, CURLOPT_PROXY, $proxy );
+                curl_setopt( $ch, CURLOPT_PROXY, $pfProxy);
 
             // Execute CURL
             $response = curl_exec( $ch );
@@ -687,7 +686,7 @@ class PayFast extends PaymentModule
         {
             // Variable initialization
             $header = '';
-            $res = '';
+            $response = '';
             $headerDone = false;
 
             // Construct Header
@@ -695,7 +694,7 @@ class PayFast extends PaymentModule
             $header .= "Host: ". $pfHost ."\r\n";
             $header .= "User-Agent: ". PF_USER_AGENT ."\r\n";
             $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-            $header .= "Content-Length: " . strlen( $pfParamString ) . "\r\n\r\n";
+            $header .= "Content-Length: " . Tools::strlen( $pfParamString ) . "\r\n\r\n";
 
             // Connect to server
             $socket = fsockopen( 'ssl://'. $pfHost, 443, $errno, $errstr, PF_TIMEOUT );
@@ -788,7 +787,7 @@ class PayFast extends PaymentModule
      */
     public static function pfAmountsEqual( $amount1, $amount2 )
     {
-        if( abs( floatval( $amount1 ) - floatval( $amount2 ) ) > PF_EPSILON )
+        if( abs( (float) $amount1  - (float) $amount2  ) > PF_EPSILON )
             return( false );
         else
             return( true );
