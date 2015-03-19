@@ -425,9 +425,14 @@ class PayFast extends PaymentModule
 	}
 
 	private function _displayLogoBlock($position)
-	{      
+	{
+        $filler = '';
+        if( $position )
+        {
+            $filler .= '';
+        }
 		return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
-		<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
+		<img src="'.__PS_BASE_URI__.$filler.'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
 	}
 
 	public function hookDisplayRightColumn($params)

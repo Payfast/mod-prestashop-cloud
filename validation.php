@@ -68,7 +68,7 @@ if ( Tools::getValue('itn_request') == 'true')
 	}
 
 	/* Verify security signature */
-	if ( !$pf_error && !$pfDone )
+	if ( !$pf_error && !$pf_done )
 	{
 		PayFast::pflog( 'Verify security signature' );
 
