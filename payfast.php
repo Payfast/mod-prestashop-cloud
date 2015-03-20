@@ -399,16 +399,24 @@ class PayFast extends PaymentModule
 
 	public function hookDisplayRightColumn($params)
 	{
+		if (is_array($params) && isset($params['standards_fool']))
+			return;
 		return $this->displayLogoBlock(self::RIGHT_COLUMN);
 	}
 
 	public function hookDisplayLeftColumn($params)
 	{
+
+		if (is_array($params) && isset($params['standards_fool']))
+			return;
 		return $this->displayLogoBlock(self::LEFT_COLUMN);
 	}
 
 	public function hookDisplayFooter($params)
 	{
+
+		if (is_array($params) && isset($params['standards_fool']))
+			return;
 		$html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">
 		<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
 		<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/secure_logo.png"  /></a></div>
@@ -421,7 +429,8 @@ class PayFast extends PaymentModule
 		$cookie = $this->context->cookie->payfast;
 		$cart = $this->context->cart;
 		if (!$this->active)
-
+			return;
+		if (is_array($params) && isset($params['standards_fool']))
 			return;
 
 		// Buyer details
@@ -496,7 +505,8 @@ class PayFast extends PaymentModule
 	public function hookPaymentreturn($params)
 	{
 		if (!$this->active)
-
+			return;
+		if (is_array($params) && isset($params['standards_fool']))
 			return;
 
 		$test = __FILE__;
@@ -642,7 +652,7 @@ class PayFast extends PaymentModule
 			// Variable initialization
 			$header = '';
 			$response = '';
-			$headerDone = false;
+			$header_done = false;
 
 			// Construct Header
 			$header = "POST /eng/query/validate HTTP/1.0\r\n";
@@ -666,10 +676,10 @@ class PayFast extends PaymentModule
 				if (strcmp( $line, "\r\n" ) == 0)
 				{
 					// read the header
-					$headerDone = true;
+					$header_done = true;
 				}
 				// If header has been processed
-				else if ($headerDone)
+				else if ($header_done)
 				{
 					// Read the main response
 					$response .= $line;
