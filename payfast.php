@@ -406,7 +406,6 @@ class PayFast extends PaymentModule
 
 	public function hookDisplayLeftColumn($params)
 	{
-
 		if (is_array($params) && isset($params['standards_fool']))
 			return;
 		return $this->displayLogoBlock(self::LEFT_COLUMN);
@@ -414,7 +413,6 @@ class PayFast extends PaymentModule
 
 	public function hookDisplayFooter($params)
 	{
-
 		if (is_array($params) && isset($params['standards_fool']))
 			return;
 		$html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">
