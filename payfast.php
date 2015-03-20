@@ -2,7 +2,7 @@
 /**
  * payfast.php
  *
- * Copyright (c) 2011 PayFast (Pty) Ltd
+ * Copyright (c) 2015 PayFast (Pty) Ltd
  *
  * LICENSE:
  *
@@ -17,10 +17,10 @@
  * License for more details.
  *
  * @author    Ron Darby<ron.darby@payfast.co.za>
- * @version    2.1.0
- * @date       12/12/2013
+ * @version    1.0.0
+ * @date       20/03/2015
  *
- * @copyright 2013 PayFast (Pty) Ltd
+ * @copyright 2015 PayFast (Pty) Ltd
  * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link       http://www.payfast.co.za/help/prestashop
  */
@@ -28,10 +28,10 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
-define( 'PF_SOFTWARE_NAME', 'PrestaShop' );
+define( 'PF_SOFTWARE_NAME', 'PrestaShop-Cloud' );
 define( 'PF_SOFTWARE_VER', Configuration::get('PS_INSTALL_VERSION') );
-define( 'PF_MODULE_NAME', 'PayFast-Prestashop' );
-define( 'PF_MODULE_VER', '2.1.1' );
+define( 'PF_MODULE_NAME', 'PayFast-Prestashop-Cloud' );
+define( 'PF_MODULE_VER', '1.0.0' );
 define( 'PF_DEBUG', ( Configuration::get('PAYFAST_LOGS')  ? true : false ) );
 
 $pf_features = 'PHP '.phpversion().';';
@@ -84,10 +84,12 @@ class PayFast extends PaymentModule
 	{
 		$this->name = 'payfast';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.1.1';
+		$this->version = '1.0.0';
 		$this->currencies = true;
 		$this->currencies_mode = 'radio';
-	parent::__construct();
+
+		parent::__construct();
+
 		$this->author  = 'PayFast';
 		$this->page = basename(__FILE__, '.php');
 
