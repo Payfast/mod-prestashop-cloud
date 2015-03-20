@@ -3,23 +3,23 @@
  * payfast.php
  *
  * Copyright (c) 2011 PayFast (Pty) Ltd
- * 
+ *
  * LICENSE:
- * 
+ *
  * This payment module is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
  * by the Free Software Foundation; either version 3 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This payment module is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE.See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * @author    Ron Darby<ron.darby@payfast.co.za>
  * @version    2.1.0
  * @date       12/12/2013
- * 
+ *
  * @copyright 2013 PayFast (Pty) Ltd
  * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link       http://www.payfast.co.za/help/prestashop
@@ -34,20 +34,20 @@ define( 'PF_MODULE_NAME', 'PayFast-Prestashop' );
 define( 'PF_MODULE_VER', '2.1.1' );
 define( 'PF_DEBUG', ( Configuration::get('PAYFAST_LOGS')  ? true : false ) );
 
-$pfFeatures = 'PHP '.phpversion().';';
+$pf_features = 'PHP '.phpversion().';';
 
 
 if (in_array( 'curl', get_loaded_extensions() ))
 {
 	define( 'PF_CURL', '' );
-	$pfVersion = curl_version();
-	$pfFeatures .= ' curl '.$pfVersion['version'].';';
+	$pf_version = curl_version();
+	$pf_features .= ' curl '.$pf_version['version'].';';
 }
 else
-	$pfFeatures .= ' nocurl;';
+	$pf_features .= ' nocurl;';
 
 
-define( 'PF_USER_AGENT', PF_SOFTWARE_NAME.'/'.PF_SOFTWARE_VER.' ('.trim( $pfFeatures ).') '.PF_MODULE_NAME.'/'.PF_MODULE_VER );
+define( 'PF_USER_AGENT', PF_SOFTWARE_NAME.'/'.PF_SOFTWARE_VER.' ('.trim( $pf_features ).') '.PF_MODULE_NAME.'/'.PF_MODULE_VER );
 define( 'PF_TIMEOUT', 15 );
 define( 'PF_EPSILON', 0.01 );
 define( 'PF_ERR_AMOUNT_MISMATCH', 'Amount mismatch' );
@@ -69,9 +69,7 @@ define( 'PF_ERR_UNKNOWN', 'Unkown error occurred' );
 define( 'PF_MSG_OK', 'Payment was successful' );
 define( 'PF_MSG_FAILED', 'Payment has failed' );
 define( 'PF_MSG_PENDING',
-	'The payment is pending.Please note, you will receive another Instant'.
-	' Transaction Notification when the payment status changes to'.
-	' "Completed", or "Failed"' );
+	'The payment is pending.Please note, you will receive another Instant Transaction Notification when the payment status changes to "Completed", or "Failed"' );
 
 class PayFast extends PaymentModule
 {
@@ -80,26 +78,26 @@ class PayFast extends PaymentModule
 	const FOOTER = 2;
 	const DISABLE = -1;
 	const SANDBOX_MERCHANT_KEY = '46f0cd694581a';
-	const SANDBOX_MERCHANT_ID = '10000100';  
+	const SANDBOX_MERCHANT_ID = '10000100';
 	public function __construct()
 	{
 		$this->name = 'payfast';
 		$this->tab = 'payments_gateways';
-		$this->version = '2.1.1';  
+		$this->version = '2.1.1';
 		$this->currencies = true;
-		$this->currencies_mode = 'radio';        
-	parent::__construct();              
+		$this->currencies_mode = 'radio';
+	parent::__construct();
 		$this->author  = 'PayFast';
 		$this->page = basename(__FILE__, '.php');
 
 		$this->displayName = $this->l('PayFast');
-		$this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international buyers, 
+		$this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international buyers,
 			quickly and securely with PayFast.');
-		$this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');        
+		$this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');
 
 		/* For 1.4.3 and less compatibility */
-		$update_config = array('PS_OS_CHEQUE' => 1, 'PS_OS_PAYMENT' => 2, 'PS_OS_PREPARATION' => 3, 'PS_OS_SHIPPING' => 4, 'PS_OS_DELIVERED' => 5, 
-			'PS_OS_CANCELED' => 6, 'PS_OS_REFUND' => 7, 'PS_OS_ERROR' => 8, 'PS_OS_OUTOFSTOCK' => 9, 'PS_OS_BANKWIRE' => 10, 'PS_OS_PAYPAL' => 11, 
+		$update_config = array('PS_OS_CHEQUE' => 1, 'PS_OS_PAYMENT' => 2, 'PS_OS_PREPARATION' => 3, 'PS_OS_SHIPPING' => 4, 'PS_OS_DELIVERED' => 5,
+			'PS_OS_CANCELED' => 6, 'PS_OS_REFUND' => 7, 'PS_OS_ERROR' => 8, 'PS_OS_OUTOFSTOCK' => 9, 'PS_OS_BANKWIRE' => 10, 'PS_OS_PAYPAL' => 11,
 			'PS_OS_WS_PAYMENT' => 12);
 		foreach ($update_config as $u => $v)
 			if (!Configuration::get($u) || (int)Configuration::get($u) < 1)
@@ -116,18 +114,17 @@ class PayFast extends PaymentModule
 	{
 		unlink(dirname(__FILE__).'/../../cache/class_index.php');
 		if (!parent::install()
-			|| !$this->registerHook('payment') 
-			|| !$this->registerHook('paymentReturn') 
-			|| !Configuration::updateValue('PAYFAST_MERCHANT_ID', '') 
-			|| !Configuration::updateValue('PAYFAST_MERCHANT_KEY', '') 
-			|| !Configuration::updateValue('PAYFAST_LOGS', '1') 
+			|| !$this->registerHook('payment')
+			|| !$this->registerHook('paymentReturn')
+			|| !Configuration::updateValue('PAYFAST_MERCHANT_ID', '')
+			|| !Configuration::updateValue('PAYFAST_MERCHANT_KEY', '')
+			|| !Configuration::updateValue('PAYFAST_LOGS', '1')
 			|| !Configuration::updateValue('PAYFAST_MODE', 'test')
 			|| !Configuration::updateValue('PAYFAST_PAYNOW_TEXT', 'Pay Now With')
-			|| !Configuration::updateValue('PAYFAST_PAYNOW_LOGO', 'on')  
+			|| !Configuration::updateValue('PAYFAST_PAYNOW_LOGO', 'on')
 			|| !Configuration::updateValue('PAYFAST_PAYNOW_ALIGN', 'right')
 			|| !Configuration::updateValue('PAYFAST_PASSPHRASE', ''))
 			return false;
-
 
 		return true;
 	}
@@ -135,17 +132,16 @@ class PayFast extends PaymentModule
 	public function uninstall()
 	{
 		unlink(dirname(__FILE__).'/../../cache/class_index.php');
-		return ( parent::uninstall() 
-			&& Configuration::deleteByName('PAYFAST_MERCHANT_ID') 
-			&& Configuration::deleteByName('PAYFAST_MERCHANT_KEY') 
-			&& Configuration::deleteByName('PAYFAST_MODE') 
+		return ( parent::uninstall()
+			&& Configuration::deleteByName('PAYFAST_MERCHANT_ID')
+			&& Configuration::deleteByName('PAYFAST_MERCHANT_KEY')
+			&& Configuration::deleteByName('PAYFAST_MODE')
 			&& Configuration::deleteByName('PAYFAST_LOGS')
-			&& Configuration::deleteByName('PAYFAST_PAYNOW_TEXT') 
-			&& Configuration::deleteByName('PAYFAST_PAYNOW_LOGO')            
+			&& Configuration::deleteByName('PAYFAST_PAYNOW_TEXT')
+			&& Configuration::deleteByName('PAYFAST_PAYNOW_LOGO')
 			&& Configuration::deleteByName('PAYFAST_PAYNOW_ALIGN')
 			&& Configuration::deleteByName('PAYFAST_PASSPHRASE')
 			);
-
 	}
 
 	public function getContent()
@@ -161,10 +157,10 @@ class PayFast extends PaymentModule
 
 			if ($paynow_logo = Tools::getValue( 'payfast_paynow_logo' ))
 				Configuration::updateValue( 'PAYFAST_PAYNOW_LOGO', $paynow_logo );
-			
+
 			if ($paynow_align = Tools::getValue( 'payfast_paynow_align' ))
 				Configuration::updateValue( 'PAYFAST_PAYNOW_ALIGN', $paynow_align );
-			
+
 			if ($pass_phrase = Tools::getValue( 'payfast_passphrase' ))
 				Configuration::updateValue( 'PAYFAST_PASSPHRASE', $pass_phrase );
 
@@ -176,7 +172,6 @@ class PayFast extends PaymentModule
 					Configuration::updateValue( 'PAYFAST_MERCHANT_ID', $merchant_id );
 				else
 					$errors[] = '<div class="warning warn"><h3>'.$this->l( 'Merchant ID seems to be wrong' ).'</h3></div>';
-				
 
 				if (( $merchant_key = Tools::getValue( 'payfast_merchant_key' ) ) && preg_match('/[a-zA-Z0-9]/', $merchant_key ))
 					Configuration::updateValue( 'PAYFAST_MERCHANT_KEY', $merchant_key );
@@ -197,13 +192,13 @@ class PayFast extends PaymentModule
 			if (Tools::getValue('logo_position') == self::LEFT_COLUMN)
 				$this->registerHook('displayLeftColumn');
 			else if (Tools::getValue('logo_position') == self::RIGHT_COLUMN)
-			$this->registerHook('displayRightColumn'); 
+			$this->registerHook('displayRightColumn');
 			else if (Tools::getValue('logo_position') == self::FOOTER)
-			$this->registerHook('displayFooter'); 
+			$this->registerHook('displayFooter');
 			if (method_exists ('Tools', 'clearSmartyCache'))
-			
-				Tools::clearSmartyCache();                       
-		}             
+
+				Tools::clearSmartyCache();
+		}
 
 		/* Display errors */
 		if (count($errors))
@@ -215,7 +210,6 @@ class PayFast extends PaymentModule
 			$html .= '</ul>';
 		}
 
-
 		$block_position_list = array(
 			self::DISABLE => $this->l('Disable'),
 			self::LEFT_COLUMN => $this->l('Left Column'),
@@ -223,21 +217,16 @@ class PayFast extends PaymentModule
 			self::FOOTER => $this->l('Footer'));
 
 		if ($this->isRegisteredInHook('displayLeftColumn'))
-		
 			$current_logo_block_position = self::LEFT_COLUMN;
-		
-		elseif ($this->isRegisteredInHook('displayRightColumn'))
-		
-			$current_logo_block_position = self::RIGHT_COLUMN; 
-		
-		elseif ($this->isRegisteredInHook('displayFooter'))
-		
-			$current_logo_block_position = self::FOOTER;
-		
-		else
-		
-			$current_logo_block_position = -1;
 
+		elseif ($this->isRegisteredInHook('displayRightColumn'))
+			$current_logo_block_position = self::RIGHT_COLUMN;
+
+		elseif ($this->isRegisteredInHook('displayFooter'))
+			$current_logo_block_position = self::FOOTER;
+
+		else
+			$current_logo_block_position = -1;
 
 	/* Display settings form */
 		$html .= '<div class="row"><div class="col-md-6">
@@ -249,7 +238,7 @@ class PayFast extends PaymentModule
 			<div class="row">
 				<p>'.$this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems arise.
 								Remember to insert your merchant key and ID for the live mode.').'</p>
-				 <div class="col-md-4">
+		         <div class="col-md-4">
 					<label>
 					  '.$this->l('Mode').'
 					</label>
@@ -260,7 +249,7 @@ class PayFast extends PaymentModule
 
 						</option>
 						<option value="test"'.(Configuration::get('PAYFAST_MODE') == 'test' ? ' selected="selected"' : '').'>'.$this->l('Test')
-		         .'</option>
+					.'</option>
 					  </select>
 					</div>
 				 </div>
@@ -295,13 +284,13 @@ class PayFast extends PaymentModule
 				</label>
 			</div>
 			<div class="col-md-8">
-			  <input type="text" name="payfast_passphrase" value="'.trim(Tools::getValue('payfast_passphrase', 
+			  <input type="text" name="payfast_passphrase" value="'.trim(Tools::getValue('payfast_passphrase',
 				Configuration::get('PAYFAST_PASSPHRASE'))).'" />
 				</div>
 			</div>
 			<div class="row">
 			<p>'.$this->l('You can log the server-to-server communication.The log file for debugging can be found at ').' '
-			   .__PS_BASE_URI__.'modules/payfast/payfast.log.'.$this->l('If activated, be sure to protect it by putting a.htaccess file in the
+			.__PS_BASE_URI__.'modules/payfast/payfast.log.'.$this->l('If activated, be sure to protect it by putting a.htaccess file in the
 					same directory.If not, the file will be readable by everyone.').'</p>
 				<div class="col-md-4">
 					<label>
@@ -321,8 +310,8 @@ class PayFast extends PaymentModule
 				<div class="col-md-8">
 				'.Configuration::get('PAYFAST_PAYNOW_TEXT');
 
-		   if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
-			
+			if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
+
 				$html .= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now With PayFast"
 					src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
 			$html .= '</div>
@@ -388,16 +377,16 @@ class PayFast extends PaymentModule
 		<fieldset>
 		  <legend><img src="../img/admin/warning.gif" />'.$this->l('Information').'</legend>
 		  <p>- '.$this->l('In order to use your PayFast module, you must insert your PayFast Merchant ID and Merchant Key above.').'</p>
-		  <p>- '.$this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the PayFast payment gateway.').
-		  '<p>
-		  <p>- '.$this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have to create a cron job with 
+		  <p>- '.$this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the PayFast payment gateway.')
+			.'<p>
+		  <p>- '.$this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have to create a cron job with
 			currency update link available at the bottom of "Currencies" section.').'<p>
 		</fieldset></div></div></div>
 		';
 		return $html;
 	}
 
-	private function _displayLogoBlock($position)
+	private function _DisplayLogoBlock($position)
 	{
 		$filler = '';
 		if ($position)
@@ -409,38 +398,38 @@ class PayFast extends PaymentModule
 
 	public function hookDisplayRightColumn($params)
 	{
-		return $this->_displayLogoBlock(self::RIGHT_COLUMN);
+		return $this->_DisplayLogoBlock(self::RIGHT_COLUMN);
 	}
 
 	public function hookDisplayLeftColumn($params)
 	{
-		return $this->_displayLogoBlock(self::LEFT_COLUMN);
-	}  
+		return $this->_DisplayLogoBlock(self::LEFT_COLUMN);
+	}
 
 	public function hookDisplayFooter($params)
 	{
-		$html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">        
+		$html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">
 		<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
 		<img src="'.__PS_BASE_URI__.'modules/payfast/views/img/secure_logo.png"  /></a></div>
 		</section>';
 		return $html;
-	}    
+	}
 
 	public function hookPayment($params)
-	{ 
+	{
 		$cookie = $this->context->cookie->payfast;
 		$cart = $this->context->cart;
 		if (!$this->active)
-		
-			return;        
-		
+
+			return;
+
 		// Buyer details
-		$customer = new Customer((int)$cart->id_customer);        
+		$customer = new Customer((int)$cart->id_customer);
 		$to_currency = new Currency(Currency::getIdByIsoCode('ZAR'));
-		$from_currency = new Currency((int)$cookie->id_currency);       
+		$from_currency = new Currency((int)$cookie->id_currency);
 		$total = $cart->getOrderTotal();
 
-		$pf_amount = Tools::convertPriceFull( $total, $from_currency, $to_currency );       
+		$pf_amount = Tools::convertPriceFull( $total, $from_currency, $to_currency );
 		$data = array();
 
 		$currency = $this->getCurrency((int)$cart->id_currency);
@@ -450,7 +439,7 @@ class PayFast extends PaymentModule
 			$cart->id_currency = (int)$currency->id;
 			$cookie->id_currency = (int)$cart->id_currency;
 			$cart->update();
-		}        
+		}
 
 		// Use appropriate merchant identifiers
 		// Live
@@ -464,51 +453,51 @@ class PayFast extends PaymentModule
 		else
 		{
 			$data['info']['merchant_id'] = self::SANDBOX_MERCHANT_ID;
-			$data['info']['merchant_key'] = self::SANDBOX_MERCHANT_KEY; 
+			$data['info']['merchant_key'] = self::SANDBOX_MERCHANT_KEY;
 			$data['payfast_url'] = 'https://sandbox.payfast.co.za/eng/process';
 		}
-		$data['payfast_paynow_text'] = Configuration::get('PAYFAST_PAYNOW_TEXT');        
-		$data['payfast_paynow_logo'] = Configuration::get('PAYFAST_PAYNOW_LOGO');      
+		$data['payfast_paynow_text'] = Configuration::get('PAYFAST_PAYNOW_TEXT');
+		$data['payfast_paynow_logo'] = Configuration::get('PAYFAST_PAYNOW_LOGO');
 		$data['payfast_paynow_align'] = Configuration::get('PAYFAST_PAYNOW_ALIGN');
 		// Create URLs
-		$data['info']['return_url'] = $this->context->link->getPageLink( 'order-confirmation', null, null, 
+		$data['info']['return_url'] = $this->context->link->getPageLink( 'order-confirmation', null, null,
 			'key='.$cart->secure_key.'&id_cart='.(int)$cart->id.'&id_module='.(int)$this->id);
 		$data['info']['cancel_url'] = Tools::getHttpHost( true ).__PS_BASE_URI__;
 		$data['info']['notify_url'] = Tools::getHttpHost( true ).__PS_BASE_URI__.'modules/payfast/validation.php?itn_request=true';
-	
+
 		$data['info']['name_first'] = $customer->firstname;
 		$data['info']['name_last'] = $customer->lastname;
 		$data['info']['email_address'] = $customer->email;
 		$data['info']['m_payment_id'] = $cart->id;
 		$data['info']['amount'] = number_format( sprintf( '%01.2f', $pf_amount ), 2, '.', '' );
-		$data['info']['item_name'] = Configuration::get('PS_SHOP_NAME').' purchase, Cart Item ID #'.$cart->id; 
-		$data['info']['custom_int1'] = $cart->id;       
-		$data['info']['custom_str1'] = $cart->secure_key;                   
-		
+		$data['info']['item_name'] = Configuration::get('PS_SHOP_NAME').' purchase, Cart Item ID #'.$cart->id;
+		$data['info']['custom_int1'] = $cart->id;
+		$data['info']['custom_str1'] = $cart->secure_key;
+
 		$pf_output = '';
 		// Create output string
 		foreach (($data['info']) as $key => $val)
 			$pf_output .= $key.'='.urlencode( trim( $val ) ).'&';
 		$pass_phrase = Configuration::get( 'PAYFAST_PASSPHRASE' );
 		if (empty( $pass_phrase ) || Configuration::get('PAYFAST_MODE') != 'live')
-		
+
 			$pf_output = Tools::substr( $pf_output, 0, -1 );
-		
+
 		else
-		
+
 			$pf_output = $pf_output.'passphrase='.urlencode( $pass_phrase );
-		
-		$data['info']['signature'] = md5( $pf_output );           
-		$this->context->smarty->assign( 'data', $data );         
+
+		$data['info']['signature'] = md5( $pf_output );
+		$this->context->smarty->assign( 'data', $data );
 		return $this->display(__FILE__, 'views/templates/hook/payment.tpl');
 	}
 
-	public function hookPaymentreturn ($params)
+	public function hookPaymentreturn($params)
 	{
 		if (!$this->active)
-		
+
 			return;
-		
+
 		$test = __FILE__;
 
 		return $this->display($test, 'views/templates/hook/payment_return.tpl');
@@ -560,16 +549,15 @@ class PayFast extends PaymentModule
 	 */
 	public static function pfGetData()
 	{
+		$pf_data = $_POST;
 
-		$pfData = $_POST;
+		foreach ($pf_data as $key => $val)
+			$pf_data[$key] = Tools::stripslashes( $val );
 
-		foreach ($pfData as $key => $val)
-			$pfData[$key] = Tools::stripslashes( $val );
-
-		if (sizeof( $pfData ) == 0)
+		if (count( $pf_data ) == 0)
 			return ( false );
 		else
-			return ( $pfData );
+			return ( $pf_data );
 	}
 
 	/**
@@ -577,27 +565,27 @@ class PayFast extends PaymentModule
 	 *
 	 * @author Jonathan Smit
 	 */
-	public static function pfValidSignature($pfData = null, &$pfParamString = null, $pfPassphrase = null )
+	public static function pfValidSignature($pf_data = null, &$pf_param_string = null, $pf_passphrase = null )
 	{
 		// Dump the submitted variables and calculate security signature
-		foreach ($pfData as $key => $val)
+		foreach ($pf_data as $key => $val)
 		{
 			if ($key != 'signature')
-				$pfParamString .= $key.'='.urlencode( $val ).'&';
+				$pf_param_string .= $key.'='.urlencode( $val ).'&';
 			else
 				break;
 		}
 
-		$pfParamString = Tools::substr( $pfParamString, 0, -1 );
+		$pf_param_string = Tools::substr( $pf_param_string, 0, -1 );
 
-		if (is_null( $pfPassphrase ) ||  Configuration::get('PAYFAST_MODE') != 'live')
-			$tempParamString = $pfParamString;
+		if (is_null( $pf_passphrase ) || Configuration::get('PAYFAST_MODE') != 'live')
+			$tempParamString = $pf_param_string;
 		else
-			$tempParamString = $pfParamString."&passphrase=".urlencode( $pfPassphrase );
+			$tempParamString = $pf_param_string.'&passphrase='.urlencode( $pf_passphrase );
 
 		$signature = md5( $tempParamString );
 
-		$result = ($pfData['signature'] == $signature );
+		$result = ($pf_data['signature'] == $signature );
 
 		self::pflog( 'Signature = '.( $result ? 'valid' : 'invalid' ) );
 
@@ -608,20 +596,21 @@ class PayFast extends PaymentModule
 	 * pfValidData
 	 *
 	 * @author Jonathan Smit
-	 * @param $pfHost String Hostname to use
-	 * @param $pfParamString String Parameter string to send
+	 *
+*@param $pf_host String Hostname to use
+	 * @param $pf_param_string String Parameter string to send
 	 * @param $proxy String Address of proxy to use or NULL if no proxy
 	 */
-	public static function pfValidData($pfHost = 'www.payfast.co.za', $pfParamString = '', $pfProxy = null )
+	public static function pfValidData( $pf_host = 'www.payfast.co.za', $pf_param_string = '', $pf_proxy = null )
 	{
-		self::pflog( 'Host = '.$pfHost );
-		self::pflog( 'Params = '.$pfParamString );
+		self::pflog( 'Host = ' . $pf_host );
+		self::pflog( 'Params = '.$pf_param_string );
 
 		// Use cURL (if available)
 		if (defined( 'PF_CURL' ) && is_callable( 'curl_init' ))
 		{
 			// Variable initialization
-			$url = 'https://'.$pfHost.'/eng/query/validate';
+			$url = 'https://' . $pf_host.'/eng/query/validate';
 
 			// Create default cURL object
 			$ch = curl_init();
@@ -637,10 +626,10 @@ class PayFast extends PaymentModule
 			// Standard settings
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_POST, true );
-			curl_setopt( $ch, CURLOPT_POSTFIELDS, $pfParamString );
+			curl_setopt( $ch, CURLOPT_POSTFIELDS, $pf_param_string );
 			curl_setopt( $ch, CURLOPT_TIMEOUT, PF_TIMEOUT );
-			if (!empty( $pfProxy ))
-				curl_setopt( $ch, CURLOPT_PROXY, $pfProxy);
+			if (!empty( $pf_proxy ))
+				curl_setopt( $ch, CURLOPT_PROXY, $pf_proxy);
 
 			// Execute CURL
 			$response = curl_exec( $ch );
@@ -656,16 +645,16 @@ class PayFast extends PaymentModule
 
 			// Construct Header
 			$header = "POST /eng/query/validate HTTP/1.0\r\n";
-			$header .= 'Host: '.$pfHost."\r\n";
+			$header .= 'Host: ' . $pf_host."\r\n";
 			$header .= 'User-Agent: '.PF_USER_AGENT."\r\n";
 			$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-			$header .= 'Content-Length: '.Tools::strlen( $pfParamString )."\r\n\r\n";
+			$header .= 'Content-Length: '.Tools::strlen( $pf_param_string )."\r\n\r\n";
 
 			// Connect to server
-			$socket = fsockopen( 'ssl://'.$pfHost, 443, $errno, $errstr, PF_TIMEOUT );
+			$socket = fsockopen( 'ssl://' . $pf_host, 443, $errno, $errstr, PF_TIMEOUT );
 
 			// Send command to server
-			fputs( $socket, $header.$pfParamString );
+			fputs( $socket, $header.$pf_param_string );
 
 			// Read the response from the server
 			while (!feof( $socket ))
@@ -704,33 +693,34 @@ class PayFast extends PaymentModule
 	 * pfValidIP
 	 *
 	 * @author Jonathan Smit
-	 * @param $sourceIP String Source IP address
+	 *
+*@param $source_ip String Source IP address
 	 */
-	public static function pfValidIP($sourceIP)
+	public static function pfValidIP( $source_ip)
 	{
 		// Variable initialization
-		$validHosts = array(
+		$valid_hosts = array(
 			'www.payfast.co.za',
 			'sandbox.payfast.co.za',
 			'w1w.payfast.co.za',
 			'w2w.payfast.co.za',
 			);
 
-		$validIps = array();
+		$valid_ips = array();
 
-		foreach ($validHosts as $pfHostname)
+		foreach ($valid_hosts as $pf_hostname)
 		{
-			$ips = gethostbynamel( $pfHostname );
+			$ips = gethostbynamel( $pf_hostname );
 
 			if ($ips !== false)
-				$validIps = array_merge( $validIps, $ips );
+				$valid_ips = array_merge( $valid_ips, $ips );
 		}
 
-		$validIps = array_unique( $validIps );
+		$valid_ips = array_unique( $valid_ips );
 
-		self::pflog( "Valid IPs:\n".print_r( $validIps, true ) );
+		self::pflog( "Valid IPs:\n".print_r( $valid_ips, true ) );
 
-		if (in_array( $sourceIP, $validIps ))
+		if (in_array( $source_ip, $valid_ips ))
 			return ( true );
 		else
 			return ( false );
