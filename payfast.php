@@ -69,7 +69,8 @@ define( 'PF_ERR_UNKNOWN', 'Unkown error occurred' );
 define( 'PF_MSG_OK', 'Payment was successful' );
 define( 'PF_MSG_FAILED', 'Payment has failed' );
 define( 'PF_MSG_PENDING',
-	'The payment is pending.Please note, you will receive another Instant Transaction Notification when the payment status changes to "Completed", or "Failed"' );
+	'The payment is pending.Please note, you will receive another Instant Transaction Notification when the payment status changes to "Completed",
+	or "Failed"' );
 
 class PayFast extends PaymentModule
 {
@@ -386,7 +387,7 @@ class PayFast extends PaymentModule
 		return $html;
 	}
 
-	private function _DisplayLogoBlock($position)
+	private function displayLogoBlock($position)
 	{
 		$filler = '';
 		if ($position)
@@ -398,12 +399,12 @@ class PayFast extends PaymentModule
 
 	public function hookDisplayRightColumn($params)
 	{
-		return $this->_DisplayLogoBlock(self::RIGHT_COLUMN);
+		return $this->displayLogoBlock(self::RIGHT_COLUMN);
 	}
 
 	public function hookDisplayLeftColumn($params)
 	{
-		return $this->_DisplayLogoBlock(self::LEFT_COLUMN);
+		return $this->displayLogoBlock(self::LEFT_COLUMN);
 	}
 
 	public function hookDisplayFooter($params)
@@ -579,11 +580,11 @@ class PayFast extends PaymentModule
 		$pf_param_string = Tools::substr( $pf_param_string, 0, -1 );
 
 		if (is_null( $pf_passphrase ) || Configuration::get('PAYFAST_MODE') != 'live')
-			$tempParamString = $pf_param_string;
+			$temp_param_string = $pf_param_string;
 		else
-			$tempParamString = $pf_param_string.'&passphrase='.urlencode( $pf_passphrase );
+			$temp_param_string = $pf_param_string.'&passphrase='.urlencode( $pf_passphrase );
 
-		$signature = md5( $tempParamString );
+		$signature = md5( $temp_param_string );
 
 		$result = ($pf_data['signature'] == $signature );
 
@@ -601,16 +602,16 @@ class PayFast extends PaymentModule
 	 * @param $pf_param_string String Parameter string to send
 	 * @param $proxy String Address of proxy to use or NULL if no proxy
 	 */
-	public static function pfValidData( $pf_host = 'www.payfast.co.za', $pf_param_string = '', $pf_proxy = null )
+	public static function pfValidData($pf_host = 'www.payfast.co.za', $pf_param_string = '', $pf_proxy = null )
 	{
-		self::pflog( 'Host = ' . $pf_host );
+		self::pflog( 'Host = '.$pf_host );
 		self::pflog( 'Params = '.$pf_param_string );
 
 		// Use cURL (if available)
 		if (defined( 'PF_CURL' ) && is_callable( 'curl_init' ))
 		{
 			// Variable initialization
-			$url = 'https://' . $pf_host.'/eng/query/validate';
+			$url = 'https://'.$pf_host.'/eng/query/validate';
 
 			// Create default cURL object
 			$ch = curl_init();
@@ -645,13 +646,13 @@ class PayFast extends PaymentModule
 
 			// Construct Header
 			$header = "POST /eng/query/validate HTTP/1.0\r\n";
-			$header .= 'Host: ' . $pf_host."\r\n";
+			$header .= 'Host: '.$pf_host."\r\n";
 			$header .= 'User-Agent: '.PF_USER_AGENT."\r\n";
 			$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 			$header .= 'Content-Length: '.Tools::strlen( $pf_param_string )."\r\n\r\n";
 
 			// Connect to server
-			$socket = fsockopen( 'ssl://' . $pf_host, 443, $errno, $errstr, PF_TIMEOUT );
+			$socket = fsockopen( 'ssl://'.$pf_host, 443, $errno, $errstr, PF_TIMEOUT );
 
 			// Send command to server
 			fputs( $socket, $header.$pf_param_string );
@@ -681,9 +682,9 @@ class PayFast extends PaymentModule
 
 		// Interpret Response
 		$lines = explode( "\r\n", $response );
-		$verifyResult = trim( $lines[0] );
+		$verify_result = trim( $lines[0] );
 
-		if (strcasecmp( $verifyResult, 'VALID' ) == 0)
+		if (strcasecmp( $verify_result, 'VALID' ) == 0)
 			return ( true );
 		else
 			return ( false );
@@ -696,7 +697,7 @@ class PayFast extends PaymentModule
 	 *
 *@param $source_ip String Source IP address
 	 */
-	public static function pfValidIP( $source_ip)
+	public static function pfValidIP($source_ip)
 	{
 		// Variable initialization
 		$valid_hosts = array(
