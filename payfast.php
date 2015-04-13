@@ -87,6 +87,7 @@ class PayFast extends PaymentModule
 		$this->version = '1.0.0';
 		$this->currencies = true;
 		$this->currencies_mode = 'radio';
+		$this->module_key = 'fbd110f6acf857bc4f97a462efdf077b';
 
 		parent::__construct();
 
