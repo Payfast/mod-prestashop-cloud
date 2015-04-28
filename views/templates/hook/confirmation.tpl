@@ -35,8 +35,8 @@
         </p>
     {else}
         <p class="warning">
-            {l s='We noticed a problem with your order. If you think this is an error, you can contact our' mod='payfast'} 
-            <a href="{$link->getPageLink('contact', true)|escape:'html'}">{l s='customer support' mod='payfast'}</a>.
+            {l s='We noticed a problem with your order. If you think this is an error, you can contact our' mod='payfast'}
+            <a href="{$link->getPageLink('contact', true)|escape:'htmlall':'UTF-8'}">{l s='customer support' mod='payfast'}</a>.
         </p>
     {/if}
 {/if}

@@ -759,5 +759,3 @@ class PayFast extends PaymentModule
 			return ( true );
 	}
 }
-
-
