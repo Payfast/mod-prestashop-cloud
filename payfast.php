@@ -31,7 +31,7 @@ if (!defined('_PS_VERSION_'))
 define( 'PF_SOFTWARE_NAME', 'PrestaShop-Cloud' );
 define( 'PF_SOFTWARE_VER', Configuration::get('PS_INSTALL_VERSION') );
 define( 'PF_MODULE_NAME', 'PayFast-Prestashop-Cloud' );
-define( 'PF_MODULE_VER', '1.0.0' );
+define( 'PF_MODULE_VER', '1.0.1' );
 define( 'PF_DEBUG', ( Configuration::get('PAYFAST_LOGS')  ? true : false ) );
 
 $pf_features = 'PHP '.phpversion().';';
@@ -84,7 +84,7 @@ class PayFast extends PaymentModule
 	{
 		$this->name = 'payfast';
 		$this->tab = 'payments_gateways';
-		$this->version = '1.0.0';
+		$this->version = '1.0.1';
 		$this->currencies = true;
 		$this->currencies_mode = 'radio';
 		$this->module_key = 'fbd110f6acf857bc4f97a462efdf077b';

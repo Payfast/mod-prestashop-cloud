@@ -2,7 +2,7 @@
 <module>
 	<name>payfast</name>
 	<displayName><![CDATA[PayFast]]></displayName>
-	<version><![CDATA[1.0.0]]></version>
+	<version><![CDATA[1.0.1]]></version>
 	<description><![CDATA[Accept payments by credit card, EFT and cash from both local and international buyers,
 			quickly and securely with PayFast.]]></description>
 	<author><![CDATA[PayFast]]></author>
