@@ -27,5 +27,5 @@
     <br /><br />
     {l s='You chose the PayFast method.' mod='payfast'}
     <br /><br /><span class="bold">{l s='Your order will be sent shortly.' mod='payfast'}</span>
-    <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact-form.php', true)}">{l s='customer support' mod='payfast'}</a>.
+    <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact-form.php', true)|escape:'htmlall':'UTF-8'}">{l s='customer support' mod='payfast'}</a>.
 </p>

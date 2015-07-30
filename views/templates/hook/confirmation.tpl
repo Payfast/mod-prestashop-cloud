@@ -25,13 +25,13 @@
 {if $status == 'ok'}
     <p>{l s='Your order on' mod='payfast'} <span class="bold">{$shop_name|escape:'htmlall':'UTF-8'}</span> {l s='is complete.' mod='payfast'}
         <br /><br /><span class="bold">{l s='Your order will be shipped as soon as possible.' mod='payfast'}</span>
-        <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact', true)}">{l s='customer support' mod='payfast'}</a>.
+        <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact', true)|escape:'htmlall':'UTF-8'}">{l s='customer support' mod='payfast'}</a>.
     </p>
 {else}
     {if $status == 'pending'}
         <p>{l s='Your order on' mod='payfast'} <span class="bold">{$shop_name|escape:'htmlall':'UTF-8'}</span> {l s='is pending.' mod='payfast'}
             <br /><br /><span class="bold">{l s='Your order will be shipped as soon as we receive your bankwire.' mod='payfast'}</span>
-            <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact', true)}">{l s='customer support' mod='payfast'}</a>.
+            <br /><br />{l s='For any questions or for further information, please contact our' mod='payfast'} <a href="{$link->getPageLink('contact', true)|escape:'htmlall':'UTF-8'}">{l s='customer support' mod='payfast'}</a>.
         </p>
     {else}
         <p class="warning">
