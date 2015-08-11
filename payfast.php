@@ -303,7 +303,7 @@ class PayFast extends PaymentModule
 				</div>
 				<div class="col-md-8">
 				  <input type="checkbox" name="payfast_logs"'.( htmlspecialchars( addslashes( Tools::getValue('payfast_logs',
-					Configuration::get('PAYFAST_LOGS')))) ? ' checked="checked"' : '' ). ' />
+					Configuration::get('PAYFAST_LOGS')))) ? ' checked="checked"' : '' ).' />
 				</div>
 			</div>
 			<div class="row">
