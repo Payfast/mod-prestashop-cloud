@@ -49,6 +49,7 @@
         if ( !$pf_error && !$pf_done) {
             header('HTTP/1.0 200 OK');
             flush();
+
         }
 
         /* Get data sent by PayFast */
