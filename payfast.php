@@ -289,8 +289,8 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(addslashes(Tools::getValue(
-                'payfast_merchant_id',
-                    Configuration::get('PAYFAST_MERCHANT_ID')
+    'payfast_merchant_id',
+    Configuration::get('PAYFAST_MERCHANT_ID')
             ))) . '" >
             </div>
         </div>
@@ -302,8 +302,8 @@ class PayFast extends PaymentModule
                 </div>
             <div class="col-md-8">
                 <input type="text" name="payfast_merchant_key" value="' . trim(htmlspecialchars(addslashes(Tools::getValue(
-                'payfast_merchant_key',
-                        Configuration::get('PAYFAST_MERCHANT_KEY')
+    'payfast_merchant_key',
+    Configuration::get('PAYFAST_MERCHANT_KEY')
             )))) . '" />
             </div>
         <div class="row">
