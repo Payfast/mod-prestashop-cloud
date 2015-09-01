@@ -312,11 +312,12 @@ class PayFast extends PaymentModule
 					<label>&nbsp;</label>
 				 </div>
 				<div class="col-md-8">
-				'.Configuration::get('PAYFAST_PAYNOW_TEXT');
+				'. htmlspecialchars( Configuration::get('PAYFAST_PAYNOW_TEXT') );
 
 			if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on')
 
-				$html .= '<img align="'.Configuration::get('PAYFAST_PAYNOW_ALIGN').'" alt="Pay Now With PayFast" title="Pay Now
+				$html .= '<img align="'.( htmlspecialchars( Configuration::get('PAYFAST_PAYNOW_ALIGN') ) ).'" alt="Pay Now With PayFast" title="Pay
+				 Now
 				With PayFast"
 					src="'.__PS_BASE_URI__.'modules/payfast/views/img/logo.png">';
 			$html .= '</div>
