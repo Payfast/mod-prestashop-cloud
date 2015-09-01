@@ -289,13 +289,13 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(
-        addslashes(
+    addslashes(
             Tools::getValue(
                 'payfast_merchant_id',
                 Configuration::get('PAYFAST_MERCHANT_ID')
             )
         )
-) . '" >
+        ) . '" >
             </div>
         </div>
         <div class="row">
@@ -306,7 +306,7 @@ class PayFast extends PaymentModule
                 </div>
             <div class="col-md-8">
                 <input type="text" name="payfast_merchant_key" value="' . trim(
-        htmlspecialchars(
+    htmlspecialchars(
             addslashes(
                 Tools::getValue(
                     'payfast_merchant_key',
@@ -314,7 +314,7 @@ class PayFast extends PaymentModule
                 )
             )
         )
-) . '" />
+        ) . '" />
             </div>
         <div class="row">
         <p>' . $this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE OF THE LOGGED IN AREA OF THE
@@ -325,13 +325,13 @@ class PayFast extends PaymentModule
         </div>
         <div class="col-md-8">
           <input type="text" name="payfast_passphrase" value="' . trim(
-        addslashes(
+    addslashes(
             Tools::getValue(
                 'payfast_passphrase',
                 Configuration::get('PAYFAST_PASSPHRASE')
             )
         )
-) . '" />
+        ) . '" />
             </div>
         </div>
         <div class="row">
@@ -351,8 +351,8 @@ class PayFast extends PaymentModule
                     'payfast_logs',
                     Configuration::get('PAYFAST_LOGS')
                 )
-        )
-) ? ' checked="checked"' : '' ) . ' />
+            )
+        ) ? ' checked="checked"' : '' ) . ' />
             </div>
         </div>
         <div class="row">
