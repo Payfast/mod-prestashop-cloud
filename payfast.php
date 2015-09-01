@@ -16,13 +16,13 @@
      * or FITNESS FOR A PARTICULAR PURPOSE.See the GNU Lesser General Public
      * License for more details.
      *
-     * @author     Ron Darby<ron.darby@payfast.co.za>
-     * @version    1.0.0
-     * @date       20/03/2015
+     * @author    Ron Darby<ron.darby@payfast.co.za>
+     * @version   1.0.0
+     * @date      20/03/2015
      *
-     * @copyright  2015 PayFast (Pty) Ltd
-     * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
-     * @link       http://www.payfast.co.za/help/prestashop
+     * @copyright 2015 PayFast (Pty) Ltd
+     * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
+     * @link      http://www.payfast.co.za/help/prestashop
      */
 
     if ( !defined('_PS_VERSION_')) {
