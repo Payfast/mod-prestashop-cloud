@@ -289,12 +289,12 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(
-    addslashes(
-        Tools::getValue(
-            'payfast_merchant_id',
-            Configuration::get('PAYFAST_MERCHANT_ID')
+        addslashes(
+            Tools::getValue(
+                'payfast_merchant_id',
+                Configuration::get('PAYFAST_MERCHANT_ID')
+            )
         )
-    )
 ) . '" >
             </div>
         </div>
@@ -306,14 +306,14 @@ class PayFast extends PaymentModule
                 </div>
             <div class="col-md-8">
                 <input type="text" name="payfast_merchant_key" value="' . trim(
-    htmlspecialchars(
-        addslashes(
-            Tools::getValue(
-                'payfast_merchant_key',
-                Configuration::get('PAYFAST_MERCHANT_KEY')
+        htmlspecialchars(
+            addslashes(
+                Tools::getValue(
+                    'payfast_merchant_key',
+                    Configuration::get('PAYFAST_MERCHANT_KEY')
+                )
             )
         )
-    )
 ) . '" />
             </div>
         <div class="row">
@@ -325,12 +325,12 @@ class PayFast extends PaymentModule
         </div>
         <div class="col-md-8">
           <input type="text" name="payfast_passphrase" value="' . trim(
-    addslashes(
-        Tools::getValue(
-            'payfast_passphrase',
-            Configuration::get('PAYFAST_PASSPHRASE')
+        addslashes(
+            Tools::getValue(
+                'payfast_passphrase',
+                Configuration::get('PAYFAST_PASSPHRASE')
+            )
         )
-    )
 ) . '" />
             </div>
         </div>
@@ -345,12 +345,12 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="checkbox" name="payfast_logs"' . (
-    htmlspecialchars(
-        addslashes(
-            Tools::getValue(
-                'payfast_logs',
-                Configuration::get('PAYFAST_LOGS')
-            )
+        htmlspecialchars(
+            addslashes(
+                Tools::getValue(
+                    'payfast_logs',
+                    Configuration::get('PAYFAST_LOGS')
+                )
         )
 ) ? ' checked="checked"' : '' ) . ' />
             </div>
