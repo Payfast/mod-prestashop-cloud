@@ -289,13 +289,13 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(
-                addslashes(
-                    Tools::getValue(
-                        'payfast_merchant_id',
-                        Configuration::get('PAYFAST_MERCHANT_ID')
-                    )
-                )
-            ) . '" >
+    addslashes(
+        Tools::getValue(
+            'payfast_merchant_id',
+            Configuration::get('PAYFAST_MERCHANT_ID')
+        )
+    )
+) . '" >
             </div>
         </div>
         <div class="row">
@@ -306,15 +306,15 @@ class PayFast extends PaymentModule
                 </div>
             <div class="col-md-8">
                 <input type="text" name="payfast_merchant_key" value="' . trim(
-                htmlspecialchars(
-                    addslashes(
-                        Tools::getValue(
-                            'payfast_merchant_key',
-                            Configuration::get('PAYFAST_MERCHANT_KEY')
-                        )
-                    )
-                )
-            ) . '" />
+    htmlspecialchars(
+        addslashes(
+            Tools::getValue(
+                'payfast_merchant_key',
+                Configuration::get('PAYFAST_MERCHANT_KEY')
+            )
+        )
+    )
+) . '" />
             </div>
         <div class="row">
         <p>' . $this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE OF THE LOGGED IN AREA OF THE
@@ -325,13 +325,13 @@ class PayFast extends PaymentModule
         </div>
         <div class="col-md-8">
           <input type="text" name="payfast_passphrase" value="' . trim(
-                addslashes(
-                    Tools::getValue(
-                        'payfast_passphrase',
-                        Configuration::get('PAYFAST_PASSPHRASE')
-                    )
-                )
-            ) . '" />
+    addslashes(
+        Tools::getValue(
+            'payfast_passphrase',
+            Configuration::get('PAYFAST_PASSPHRASE')
+        )
+    )
+) . '" />
             </div>
         </div>
         <div class="row">
@@ -345,14 +345,14 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
               <input type="checkbox" name="payfast_logs"' . (
-            htmlspecialchars(
-                addslashes(
-                    Tools::getValue(
-                        'payfast_logs',
-                        Configuration::get('PAYFAST_LOGS')
-                    )
-                )
-            ) ? ' checked="checked"' : '' ) . ' />
+    htmlspecialchars(
+        addslashes(
+            Tools::getValue(
+                'payfast_logs',
+                Configuration::get('PAYFAST_LOGS')
+            )
+        )
+) ? ' checked="checked"' : '' ) . ' />
             </div>
         </div>
         <div class="row">
@@ -516,8 +516,7 @@ class PayFast extends PaymentModule
             $data[ 'info' ][ 'merchant_id' ] = Configuration::get('PAYFAST_MERCHANT_ID');
             $data[ 'info' ][ 'merchant_key' ] = Configuration::get('PAYFAST_MERCHANT_KEY');
             $data[ 'payfast_url' ] = 'https://www.payfast.co.za/eng/process';
-        } // Sandbox
-        else {
+        } else {
             $data[ 'info' ][ 'merchant_id' ] = self::SANDBOX_MERCHANT_ID;
             $data[ 'info' ][ 'merchant_key' ] = self::SANDBOX_MERCHANT_KEY;
             $data[ 'payfast_url' ] = 'https://sandbox.payfast.co.za/eng/process';
@@ -526,8 +525,12 @@ class PayFast extends PaymentModule
         $data[ 'payfast_paynow_logo' ] = Configuration::get('PAYFAST_PAYNOW_LOGO');
         $data[ 'payfast_paynow_align' ] = Configuration::get('PAYFAST_PAYNOW_ALIGN');
         // Create URLs
-        $data[ 'info' ][ 'return_url' ] = $this->context->link->getPageLink('order-confirmation', null, null,
-            'key=' . $cart->secure_key . '&id_cart=' . (int) $cart->id . '&id_module=' . (int) $this->id);
+        $data[ 'info' ][ 'return_url' ] = $this->context->link->getPageLink(
+            'order-confirmation',
+            null,
+            null,
+            'key=' . $cart->secure_key . '&id_cart=' . (int) $cart->id . '&id_module=' . (int) $this->id
+        );
         $data[ 'info' ][ 'cancel_url' ] = Tools::getHttpHost(true) . __PS_BASE_URI__;
         $data[ 'info' ][ 'notify_url' ] = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'modules/payfast/validation.php?itn_request=true';
 
@@ -703,8 +706,7 @@ class PayFast extends PaymentModule
             // Execute CURL
             $response = curl_exec($ch);
             curl_close($ch);
-        } // Use fsockopen
-        else {
+        } else {
             // Variable initialization
             $header = '';
             $response = '';
@@ -731,8 +733,7 @@ class PayFast extends PaymentModule
                 if (strcmp($line, "\r\n") == 0) {
                     // read the header
                     $header_done = true;
-                } // If header has been processed
-                else if ($header_done) {
+                } else if ($header_done) {
                     // Read the main response
                     $response .= $line;
                 }
