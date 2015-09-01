@@ -288,8 +288,14 @@ class PayFast extends PaymentModule
                 </label>
             </div>
             <div class="col-md-8">
-              <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(addslashes(Tools::getValue('payfast_merchant_id',
-                Configuration::get('PAYFAST_MERCHANT_ID')))) . '" >
+              <input type="text" name="payfast_merchant_id" value="' . htmlspecialchars(
+                addslashes(
+                    Tools::getValue(
+                        'payfast_merchant_id',
+                        Configuration::get('PAYFAST_MERCHANT_ID')
+                    )
+                )
+            ) . '" >
             </div>
         </div>
         <div class="row">
@@ -299,8 +305,16 @@ class PayFast extends PaymentModule
                 </label>
                 </div>
             <div class="col-md-8">
-                <input type="text" name="payfast_merchant_key" value="' . trim(htmlspecialchars(addslashes(Tools::getValue('payfast_merchant_key',
-                Configuration::get('PAYFAST_MERCHANT_KEY'))))) . '" />
+                <input type="text" name="payfast_merchant_key" value="' . trim(
+                htmlspecialchars(
+                    addslashes(
+                        Tools::getValue(
+                            'payfast_merchant_key',
+                            Configuration::get('PAYFAST_MERCHANT_KEY')
+                        )
+                    )
+                )
+            ) . '" />
             </div>
         <div class="row">
         <p>' . $this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE OF THE LOGGED IN AREA OF THE
@@ -310,21 +324,35 @@ class PayFast extends PaymentModule
             </label>
         </div>
         <div class="col-md-8">
-          <input type="text" name="payfast_passphrase" value="' . trim(addslashes(Tools::getValue('payfast_passphrase',
-                Configuration::get('PAYFAST_PASSPHRASE')))) . '" />
+          <input type="text" name="payfast_passphrase" value="' . trim(
+                addslashes(
+                    Tools::getValue(
+                        'payfast_passphrase',
+                        Configuration::get('PAYFAST_PASSPHRASE')
+                    )
+                )
+            ) . '" />
             </div>
         </div>
         <div class="row">
-        <p>' . $this->l('You can log the server-to-server communication.The log file for debugging can be found at ') . ' ' . __PS_BASE_URI__ . 'modules/payfast/payfast.log.' . $this->l('If activated, be sure to protect it by putting a.htaccess file in the
-                same directory.If not, the file will be readable by everyone.') . '</p>
+        <p>' . $this->l('You can log the server-to-server communication.The log file for debugging can be found at ') . ' ' .
+             __PS_BASE_URI__ . 'modules/payfast/payfast.log.' . $this->l('If activated, be sure to protect it by putting a.htaccess file in the
+            same directory.If not, the file will be readable by everyone.') . '</p>
             <div class="col-md-4">
                 <label>
                   ' . $this->l('Debug') . '
                 </label>
             </div>
             <div class="col-md-8">
-              <input type="checkbox" name="payfast_logs"' . (htmlspecialchars(addslashes(Tools::getValue('payfast_logs',
-                Configuration::get('PAYFAST_LOGS')))) ? ' checked="checked"' : '' ) . ' />
+              <input type="checkbox" name="payfast_logs"' . (
+            htmlspecialchars(
+                addslashes(
+                    Tools::getValue(
+                        'payfast_logs',
+                        Configuration::get('PAYFAST_LOGS')
+                    )
+                )
+            ) ? ' checked="checked"' : '' ) . ' />
             </div>
         </div>
         <div class="row">
