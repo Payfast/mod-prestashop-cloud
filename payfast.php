@@ -50,8 +50,8 @@ class PayFast extends PaymentModule
         $this->page = basename(__FILE__, '.php');
 
         $this->displayName = $this->l('PayFast');
-        $this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international buyers,
-        quickly and securely with PayFast.');
+        $this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international
+        buyers, quickly and securely with PayFast.');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');
 
         /* For 1.4.3 and less compatibility */
@@ -146,17 +146,21 @@ class PayFast extends PaymentModule
                 if (($merchant_id = Tools::getValue('payfast_merchant_id') ) && preg_match('/[0-9]/', $merchant_id)) {
                     Configuration::updateValue('PAYFAST_MERCHANT_ID', $merchant_id);
                 } else {
-                    $errors[] = '<div class="warning warn"><h3>' . $this->l('Merchant ID seems to be wrong') . '</h3></div>';
+                    $errors[] = '<div class="warning warn"><h3>' . $this->l('Merchant ID seems to be wrong')
+                        . '</h3></div>';
                 }
 
-                if (($merchant_key = Tools::getValue('payfast_merchant_key') ) && preg_match('/[a-zA-Z0-9]/', $merchant_key)) {
+                if (($merchant_key = Tools::getValue('payfast_merchant_key') )
+                    && preg_match('/[a-zA-Z0-9]/', $merchant_key)) {
                     Configuration::updateValue('PAYFAST_MERCHANT_KEY', $merchant_key);
                 } else {
-                    $errors[] = '<div class="warning warn"><h3>' . $this->l('Merchant key seems to be wrong') . '</h3></div>';
+                    $errors[] = '<div class="warning warn"><h3>' . $this->l('Merchant key seems to be wrong')
+                        . '</h3></div>';
                 }
 
                 if (!count($errors)) {
-                    Tools::redirectAdmin(AdminController::$currentIndex . '&configure=payfast&token=' . Tools::getValue('token') . '&conf=4');
+                    Tools::redirectAdmin(AdminController::$currentIndex . '&configure=payfast&token='
+                        . Tools::getValue('token') . '&conf=4');
                 }
             }
             if (Tools::getValue('payfast_logs')) {
@@ -184,8 +188,8 @@ class PayFast extends PaymentModule
 
         /* Display errors */
         if (count($errors)) {
-            $html .= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF; border: 1px dashed #BBB;
-        padding: 10px;">';
+            $html .= '<ul style="color: red; font-weight: bold; margin-bottom: 30px; width: 506px; background: #FFDFDF;
+border: 1px dashed #BBB; padding: 10px;">';
             foreach ($errors as $error) {
                 $html .= '<li>' . $error . '</li>';
             }
@@ -214,11 +218,11 @@ class PayFast extends PaymentModule
     <form action="' . $_SERVER[ 'REQUEST_URI' ] . '" method="post">
       <fieldset>
       <legend><a href="https://www.payfast.co.za" target="_blank">
-                        <img src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/payfast.png" alt="PayFast" boreder="0" /></a>' . $this->l('Settings') . '
-                        </legend>
+                        <img src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/payfast.png" alt="PayFast"
+                        boreder="0" /></a>' . $this->l('Settings') . '</legend>
         <div class="row">
-            <p>' . $this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems arise.
-                            Remember to insert your merchant key and ID for the live mode.') . '</p>
+            <p>' . $this->l('Use the "Test" mode to test out the module then you can use the "Live" mode if no problems
+            arise. Remember to insert your merchant key and ID for the live mode.') . '</p>
              <div class="col-md-4">
                 <label>
                   ' . $this->l('Mode') . '
@@ -275,8 +279,8 @@ class PayFast extends PaymentModule
         ) . '" />
             </div>
         <div class="row">
-        <p>' . $this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE OF THE LOGGED IN AREA OF THE
-                            PAYFAST WEBSITE!!!!!') . '</p>
+        <p>' . $this->l('ONLY INSERT A VALUE INTO THE SECURE PASSPHRASE IF YOU HAVE SET THIS ON THE INTEGRATION PAGE
+        OF THE LOGGED IN AREA OF THE PAYFAST WEBSITE!!!!!') . '</p>
             <div class="col-md-4">' . '<label>
               ' . $this->l('Secure Passphrase') . '
             </label>
@@ -294,9 +298,9 @@ class PayFast extends PaymentModule
             </div>
         </div>
         <div class="row">
-        <p>' . $this->l('You can log the server-to-server communication.The log file for debugging can be found at ') . ' ' .
-             __PS_BASE_URI__ . 'modules/payfast/payfast.log.' . $this->l('If activated, be sure to protect it by putting a.htaccess file in the
-            same directory.If not, the file will be readable by everyone.') . '</p>
+        <p>' . $this->l('You can log the server-to-server communication.The log file for debugging can be found at ')
+            . ' ' . __PS_BASE_URI__ . 'modules/payfast/payfast.log.' . $this->l('If activated, be sure to protect it
+            by putting a.htaccess file in the same directory.If not, the file will be readable by everyone.') . '</p>
             <div class="col-md-4">
                 <label>
                   ' . $this->l('Debug') . '
@@ -315,7 +319,8 @@ class PayFast extends PaymentModule
             </div>
         </div>
         <div class="row">
-            <p>' . $this->l('During checkout the following is what the client gets to click on to pay with PayFast.') . '</p>
+            <p>' . $this->l('During checkout the following is what the client gets to click on to pay with PayFast.') .
+            '</p>
             <div class="col-md-4">
                 <label>&nbsp;</label>
              </div>
@@ -323,10 +328,9 @@ class PayFast extends PaymentModule
             ' . htmlspecialchars(Configuration::get('PAYFAST_PAYNOW_TEXT'));
 
         if (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on') {
-            $html .= '<img align="' . (htmlspecialchars(Configuration::get('PAYFAST_PAYNOW_ALIGN')) ) . '" alt="Pay Now With PayFast" title="Pay
-             Now
-            With PayFast"
-                src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/logo.png">';
+            $html .= '<img align="' . (htmlspecialchars(Configuration::get('PAYFAST_PAYNOW_ALIGN')) ) . '" alt="Pay
+            Now With PayFast" title="Pay Now With PayFast" src="' . __PS_BASE_URI__ .
+                'modules/payfast/views/img/logo.png">';
         }
         $html .= '</div>
         </div>
@@ -337,7 +341,8 @@ class PayFast extends PaymentModule
                 </label>
             </div>
             <div class="col-md-8">
-                <input type="text" name="payfast_paynow_text" value="' . htmlspecialchars(addslashes(Configuration::get('PAYFAST_PAYNOW_TEXT'))) . '">
+                <input type="text" name="payfast_paynow_text" value="'
+            . htmlspecialchars(addslashes(Configuration::get('PAYFAST_PAYNOW_TEXT'))) . '">
             </div>
         </div>
         <div class="row">
@@ -348,7 +353,8 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
                 <input type="radio" name="payfast_paynow_logo" value="off"
-                ' . (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'off' ? ' checked="checked"' : '' ) . '"> &nbsp; ' . $this->l('None') . '<br>
+                ' . (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'off' ? ' checked="checked"' : '' ) . '"> &nbsp;
+                ' . $this->l('None') . '<br>
                 <input type="radio" name="payfast_paynow_logo" value="on"
                 ' . (Configuration::get('PAYFAST_PAYNOW_LOGO') == 'on' ? ' checked="checked"' : '' ) . '
                 "> &nbsp; <img src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/logo.png">
@@ -362,13 +368,16 @@ class PayFast extends PaymentModule
             </div>
             <div class="col-md-8">
                 <input type="radio" name="payfast_paynow_align" value="left"
-            ' . (Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'left' ? ' checked="checked"' : '' ) . '"> &nbsp; ' . $this->l('Left') . '<br>
+            ' . (Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'left' ? ' checked="checked"' : '' ) . '"> &nbsp; ' .
+            $this->l('Left') . '<br>
                 <input type="radio" name="payfast_paynow_align" value="right"
-            ' . (Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'right' ? ' checked="checked"' : '' ) . '"> &nbsp; ' . $this->l('Right') . '
+            ' . (Configuration::get('PAYFAST_PAYNOW_ALIGN') == 'right' ? ' checked="checked"' : '' ) . '"> &nbsp; ' .
+            $this->l('Right') . '
             </div>
         </div>
         <div class="row">
-            <p>' . $this->l('Where would you like the the Secure Payments made with PayFast image to appear on your website?') . '</p>
+            <p>' . $this->l('Where would you like the the Secure Payments made with PayFast image to appear on your
+            website?') . '</p>
            <div class="col-md-4">
                  <label>
                             ' . $this->l('Select the image position') . '
@@ -383,16 +392,19 @@ class PayFast extends PaymentModule
         $html .= '</select></div>
         </div>
 
-        <div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="' . $this->l('   Save   ') . '" />
+        <div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="' . $this->l('   Save   ') .
+            '" />
         </div><div class="clear"></div>
       </fieldset>
     </form></div><div class="col-md-6">
     <fieldset>
       <legend><img src="../img/admin/warning.gif" />' . $this->l('Information') . '</legend>
-      <p>- ' . $this->l('In order to use your PayFast module, you must insert your PayFast Merchant ID and Merchant Key above.') . '</p>
-      <p>- ' . $this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the PayFast payment gateway.') . '<p>
-      <p>- ' . $this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have to create a cron job with
-        currency update link available at the bottom of "Currencies" section.') . '<p>
+      <p>- ' . $this->l('In order to use your PayFast module, you must insert your PayFast Merchant ID and Merchant Key
+      above.') . '</p>
+      <p>- ' . $this->l('Any orders in currencies other than ZAR will be converted by prestashop prior to be sent to the
+      PayFast payment gateway.') . '<p>
+      <p>- ' . $this->l('It is possible to setup an automatic currency rate update using crontab.You will simply have
+       to create a cron job with currency update link available at the bottom of "Currencies" section.') . '<p>
     </fieldset></div></div></div>
     ';
 

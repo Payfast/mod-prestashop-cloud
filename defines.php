@@ -57,5 +57,5 @@ define('PF_ERR_SESSIONID_MISMATCH', 'Session ID mismatch');
 define('PF_ERR_UNKNOWN', 'Unkown error occurred');
 define('PF_MSG_OK', 'Payment was successful');
 define('PF_MSG_FAILED', 'Payment has failed');
-define('PF_MSG_PENDING', 'The payment is pending.Please note, you will receive another Instant Transaction Notification when the payment status changes to "Completed",
-or "Failed"');
+define('PF_MSG_PENDING', 'The payment is pending.Please note, you will receive another Instant Transaction Notification
+ when the payment status changes to "Completed", or "Failed"');
