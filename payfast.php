@@ -50,8 +50,8 @@ class PayFast extends PaymentModule
         $this->page = basename(__FILE__, '.php');
 
         $this->displayName = $this->l('PayFast');
-        /*$this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international
-        buyers, quickly and securely with PayFast.');*/
+        $this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international
+        buyers.');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');
 
         /* For 1.4.3 and less compatibility */
