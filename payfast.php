@@ -25,10 +25,6 @@
  * @link      http://www.payfast.co.za/help/prestashop
  */
 
-if (!defined('_PS_VERSION_')) {
-    exit;
-}
-
 include ('defines.php');
 
 class PayFast extends PaymentModule
