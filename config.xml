@@ -2,10 +2,8 @@
 <module>
 	<name>payfast</name>
 	<displayName><![CDATA[PayFast]]></displayName>
-	<version><![CDATA[1.0.1]]></version>
-	<description>
-		<![CDATA[Accept payments by credit card, EFT and cash from both local and international buyers.]]>
-	</description>
+	<version><![CDATA[1.1.0]]></version>
+	<description><![CDATA[Accept payments by credit card, EFT and cash in ZAR.]]></description>
 	<author><![CDATA[PayFast]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to delete your details ?]]></confirmUninstall>

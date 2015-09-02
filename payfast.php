@@ -17,13 +17,15 @@
  * License for more details.
  *
  * @author    Ron Darby<ron.darby@payfast.co.za>
- * @version   1.0.0
+ * @version   1.1.0
  * @date      20/03/2015
  *
  * @copyright 2015 PayFast (Pty) Ltd
  * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link      http://www.payfast.co.za/help/prestashop
  */
+if (!defined('_PS_VERSION_'))
+  exit;
 
 class PayFast extends PaymentModule
 {
@@ -39,7 +41,7 @@ class PayFast extends PaymentModule
         include ('defines.php');
         $this->name = 'payfast';
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.1';
+        $this->version = '1.1.0';
         $this->currencies = true;
         $this->currencies_mode = 'radio';
         $this->module_key = 'fbd110f6acf857bc4f97a462efdf077b';
@@ -50,8 +52,7 @@ class PayFast extends PaymentModule
         $this->page = basename(__FILE__, '.php');
 
         $this->displayName = $this->l('PayFast');
-        $this->description = $this->l('Accept payments by credit card, EFT and cash from both local and international
-        buyers.');
+        $this->description = $this->l('Accept payments by credit card, EFT and cash in ZAR.');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details ?');
 
         /* For 1.4.3 and less compatibility */

@@ -1,4 +1,4 @@
-PayFast Prestashop Cloud Plugin
+PayFast Prestashop Cloud Plugin v1.1.0
 -------------------------------------------------------------------------------
 Copyright © 2010-2015 PayFast (Pty) Ltd
 

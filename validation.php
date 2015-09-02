@@ -17,7 +17,7 @@
  * License for more details.
  *
  * @author    Ron Darby<ron.darby@payfast.co.za>
- * @version   1.0.0
+ * @version   1.1.0
  * @date      20/03/2015
  *
  * @copyright 2015 PayFast (Pty) Ltd
