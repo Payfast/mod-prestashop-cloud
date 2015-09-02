@@ -159,8 +159,10 @@ class PayFast extends PaymentModule
                 }
 
                 if (!count($errors)) {
-                    Tools::redirectAdmin(AdminController::$currentIndex . '&configure=payfast&token='
-                        . Tools::getValue('token') . '&conf=4');
+                    Tools::redirectAdmin(
+                        AdminController::$currentIndex . '&configure=payfast&token='. Tools::getValue('token') .
+                        '&conf=4'
+                    );
                 }
             }
             if (Tools::getValue('payfast_logs')) {
@@ -176,9 +178,9 @@ class PayFast extends PaymentModule
             }
             if (Tools::getValue('logo_position') == self::LEFT_COLUMN) {
                 $this->registerHook('displayLeftColumn');
-            } else if (Tools::getValue('logo_position') == self::RIGHT_COLUMN) {
+            } elseif (Tools::getValue('logo_position') == self::RIGHT_COLUMN) {
                 $this->registerHook('displayRightColumn');
-            } else if (Tools::getValue('logo_position') == self::FOOTER) {
+            } elseif (Tools::getValue('logo_position') == self::FOOTER) {
                 $this->registerHook('displayFooter');
             }
             if (method_exists('Tools', 'clearSmartyCache')) {
@@ -704,7 +706,7 @@ border: 1px dashed #BBB; padding: 10px;">';
                 if (strcmp($line, "\r\n") == 0) {
                     // read the header
                     $header_done = true;
-                } else if ($header_done) {
+                } elseif ($header_done) {
                     // Read the main response
                     $response .= $line;
                 }
