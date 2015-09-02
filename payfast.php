@@ -30,4 +30,4 @@ if (!defined('_PS_VERSION_')) {
 }
 
 include('defines.php');
-include('class.payfast.php');
+include('class.php');
