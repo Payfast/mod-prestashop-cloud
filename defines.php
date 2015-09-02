@@ -31,17 +31,12 @@ define('PF_MODULE_NAME', 'PayFast-Prestashop-Cloud');
 define('PF_MODULE_VER', '1.0.1');
 define('PF_DEBUG', (Configuration::get('PAYFAST_LOGS') ? true : false ));
 
-$pf_features = 'PHP ' . phpversion() . ';';
-
 if (in_array('curl', get_loaded_extensions())) {
     define('PF_CURL', '');
-    $pf_version = curl_version();
-    $pf_features .= ' curl ' . $pf_version[ 'version' ] . ';';
-} else {
-    $pf_features .= ' nocurl;';
+
 }
 
-define('PF_USER_AGENT', PF_SOFTWARE_NAME . '/' . PF_SOFTWARE_VER . ' (' . trim($pf_features) . ') ' . PF_MODULE_NAME . '/' . PF_MODULE_VER);
+define('PF_USER_AGENT', PF_SOFTWARE_NAME . '/' . PF_SOFTWARE_VER . ' - ' . PF_MODULE_NAME . '/' . PF_MODULE_VER);
 define('PF_TIMEOUT', 15);
 define('PF_EPSILON', 0.01);
 define('PF_ERR_AMOUNT_MISMATCH', 'Amount mismatch');
