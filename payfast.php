@@ -24,8 +24,12 @@
  * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link      http://www.payfast.co.za/help/prestashop
  */
+
 if (!defined('_PS_VERSION_'))
-  exit;
+{
+    exit;
+}
+
 
 class PayFast extends PaymentModule
 {
