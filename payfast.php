@@ -24,7 +24,6 @@
  * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link      http://www.payfast.co.za/help/prestashop
  */
-include ('defines.php');
 
 class PayFast extends PaymentModule
 {
@@ -37,6 +36,7 @@ class PayFast extends PaymentModule
 
     public function __construct()
     {
+        include ('defines.php');
         $this->name = 'payfast';
         $this->tab = 'payments_gateways';
         $this->version = '1.0.1';
