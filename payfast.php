@@ -381,9 +381,7 @@ border: 1px dashed #BBB; padding: 10px;">';
             <p>' . $this->l('Where would you like the the Secure Payments made with PayFast image to appear on your
             website?') . '</p>
            <div class="col-md-4">
-                 <label>
-                            ' . $this->l('Select the image position') . '
-                            <label>
+                 <label>' . $this->l('Select the image position') . '<label>
            </div>
            <div class="col-md-8">
                           <select class="form-control" name="logo_position">';
@@ -394,8 +392,8 @@ border: 1px dashed #BBB; padding: 10px;">';
         $html .= '</select></div>
         </div>
 
-        <div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="' . $this->l('   Save   ') .
-            '" />
+        <div style="float:right;"><input type="submit" name="submitPayfast" class="button" value="' .
+            $this->l('   Save   ') . '" />
         </div><div class="clear"></div>
       </fieldset>
     </form></div><div class="col-md-6">
@@ -420,7 +418,8 @@ border: 1px dashed #BBB; padding: 10px;">';
             $filler .= '';
         }
 
-        return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
+        return '<div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank"
+        title="Secure Payments With PayFast">
     <img src="' . __PS_BASE_URI__ . $filler . 'modules/payfast/views/img/secure_logo.png" width="150" /></a></div>';
     }
 
@@ -448,7 +447,8 @@ border: 1px dashed #BBB; padding: 10px;">';
             return;
         }
         $html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">
-    <div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank" title="Secure Payments With PayFast">
+    <div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank"
+    title="Secure Payments With PayFast">
     <img src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/secure_logo.png"  /></a></div>
     </section>';
 
@@ -505,7 +505,8 @@ border: 1px dashed #BBB; padding: 10px;">';
             'key=' . $cart->secure_key . '&id_cart=' . (int) $cart->id . '&id_module=' . (int) $this->id
         );
         $data[ 'info' ][ 'cancel_url' ] = Tools::getHttpHost(true) . __PS_BASE_URI__;
-        $data[ 'info' ][ 'notify_url' ] = Tools::getHttpHost(true) . __PS_BASE_URI__ . 'modules/payfast/validation.php?itn_request=true';
+        $data[ 'info' ][ 'notify_url' ] = Tools::getHttpHost(true) . __PS_BASE_URI__ .
+            'modules/payfast/validation.php?itn_request=true';
 
         $data[ 'info' ][ 'name_first' ] = $customer->firstname;
         $data[ 'info' ][ 'name_last' ] = $customer->lastname;
