@@ -328,14 +328,14 @@ class PayFast extends PaymentModule
         </div>
         <div class="col-md-8">
           <input type="text" name="payfast_passphrase" value="' .
-    trim(
-        addslashes(
-            Tools::getValue(
-                'payfast_passphrase',
-                Configuration::get('PAYFAST_PASSPHRASE')
+        trim(
+            addslashes(
+                Tools::getValue(
+                    'payfast_passphrase',
+                    Configuration::get('PAYFAST_PASSPHRASE')
+                )
             )
-        )
-    ) . '" />
+        ) . '" />
             </div>
         </div>
         <div class="row">
