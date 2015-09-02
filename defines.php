@@ -1,7 +1,30 @@
 <?php
-if (!defined('_PS_VERSION_')) {
-    exit;
-}
+/**
+ * payfast.php
+ *
+ * Copyright (c) 2015 PayFast (Pty) Ltd
+ *
+ * LICENSE:
+ *
+ * This payment module is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This payment module is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE.See the GNU Lesser General Public
+ * License for more details.
+ *
+ * @author    Ron Darby<ron.darby@payfast.co.za>
+ * @version   1.0.0
+ * @date      02/09/2015
+ *
+ * @copyright 2015 PayFast (Pty) Ltd
+ * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link      http://www.payfast.co.za/help/prestashop
+ */
+
 define('PF_SOFTWARE_NAME', 'PrestaShop-Cloud');
 define('PF_SOFTWARE_VER', Configuration::get('PS_INSTALL_VERSION'));
 define('PF_MODULE_NAME', 'PayFast-Prestashop-Cloud');
@@ -41,4 +64,3 @@ define('PF_MSG_OK', 'Payment was successful');
 define('PF_MSG_FAILED', 'Payment has failed');
 define('PF_MSG_PENDING', 'The payment is pending.Please note, you will receive another Instant Transaction Notification when the payment status changes to "Completed",
 or "Failed"');
-
