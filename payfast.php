@@ -25,18 +25,17 @@
  * @link      http://www.payfast.co.za/help/prestashop
  */
 
-if (!defined('_PS_VERSION_')) {
-    exit;
-}
-
 define('PF_SOFTWARE_NAME', 'PrestaShop-Cloud');
 define('PF_SOFTWARE_VER', Configuration::get('PS_INSTALL_VERSION'));
 define('PF_MODULE_NAME', 'PayFast-Prestashop-Cloud');
 define('PF_MODULE_VER', '1.0.1');
 define('PF_DEBUG', (Configuration::get('PAYFAST_LOGS') ? true : false ));
 
-$pf_features = 'PHP ' . phpversion() . ';';
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
+$pf_features = 'PHP ' . phpversion() . ';';
 
 if (in_array('curl', get_loaded_extensions())) {
     define('PF_CURL', '');
