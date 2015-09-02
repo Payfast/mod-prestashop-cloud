@@ -3,7 +3,8 @@
 	<name>payfast</name>
 	<displayName><![CDATA[PayFast]]></displayName>
 	<version><![CDATA[1.0.1]]></version>
-	<description><![CDATA[Credit card, EFT and bitcoin payments from both local and international buyers, quickly and securely with PayFast.]]></description>
+	<description><![CDATA[Accept payments by credit card, EFT and cash from both local and international
+	        buyers, quickly and securely with PayFast.]]></description>
 	<author><![CDATA[PayFast]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to delete your details ?]]></confirmUninstall>
