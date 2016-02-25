@@ -533,6 +533,7 @@ border: 1px dashed #BBB; padding: 10px;">';
         }
 
         $data[ 'info' ][ 'signature' ] = md5($pf_output);
+        $data['info']['user_agent'] = 'PrestaShop Cloud';
         $this->context->smarty->assign('data', $data);
 
         return $this->display(__FILE__, 'views/templates/hook/payment.tpl');
