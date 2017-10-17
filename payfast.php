@@ -438,7 +438,7 @@ border: 1px dashed #BBB; padding: 10px;">';
             return;
         }
         $html = '<section id="payfast_footer_link" class="footer-block col-xs-12 col-sm-2">
-    <div style="text-align:center;"><a href="https://www.payfast.co.za" target="_blank"
+    <div style="text-align:center;"><a href="https://www.payfast.co.za" rel="nofollow"
     title="Secure Payments With PayFast">
     <img src="' . __PS_BASE_URI__ . 'modules/payfast/views/img/secure_logo.png"  /></a></div>
     </section>';
